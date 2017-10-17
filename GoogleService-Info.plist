@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>666169170738-db7o177ra44arqsfkjiuc2hmqqfk0kvb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.666169170738-db7o177ra44arqsfkjiuc2hmqqfk0kvb</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAZRQE83iILwRvN5xoY0nHANzu5Zt6ekWA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>666169170738</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>fruitsalad.cherry.wevvi</string>
+	<key>PROJECT_ID</key>
+	<string>cherry-32a07</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cherry-32a07.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:666169170738:ios:97f143338d701ec5</string>
+	<key>DATABASE_URL</key>
+	<string>https://cherry-32a07.firebaseio.com</string>
+</dict>
+</plist>
