@@ -13,9 +13,9 @@ class bullet : ShapeObject {
     override init() {
         super.init()
         
-        self.strokeColor = Game.GameInvertedColour ? UIColor.blackColor() : UIColor(red: 234, green: 234, blue: 234);
-        self.fillColor = Game.GameInvertedColour ? UIColor.blackColor() : UIColor(red: 234, green: 234, blue: 234);
-        self.physicsBody = SKPhysicsBody(circleOfRadius: Game.GetX(0.008));
+        self.strokeColor = Game.GameInvertedColour ? UIColor.black : UIColor(red: 234, green: 234, blue: 234);
+        self.fillColor = Game.GameInvertedColour ? UIColor.black : UIColor(red: 234, green: 234, blue: 234);
+        self.physicsBody = SKPhysicsBody(circleOfRadius: Game.GetX(value: 0.008));
         self.physicsBody?.categoryBitMask = PhysicsCategory.bullet;
         self.physicsBody?.contactTestBitMask = PhysicsCategory.None;
         self.physicsBody?.mass = 0.5;

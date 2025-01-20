@@ -35,7 +35,7 @@ class TextObject : SKLabelNode {
         
         let HitBox:SKShapeNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.frame.width * 1.5, height: self.frame.height * 1.5));
         HitBox.position = CGPoint(x: -HitBox.frame.width/2, y: -HitBox.frame.height/4);
-        HitBox.fillColor = SKColor.blackColor();
+        HitBox.fillColor = SKColor.black;
         HitBox.lineWidth = 0.0;
         HitBox.zPosition = zPos;
         HitBox.name = name;
@@ -44,6 +44,6 @@ class TextObject : SKLabelNode {
     }
     
     func getColour(){
-        self.fontColor = Game.MenuInvertedColour ? SKColor.blackColor() : SKColor.whiteColor();
+        self.fontColor = Game.MenuInvertedColour ? SKColor.black : SKColor.white;
     }
 }

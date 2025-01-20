@@ -34,23 +34,23 @@ class toBuy : PopUp {
 
     
     func show(item:String){
-        areyousure.setup("Are you sure you", name: "areyousure",
-                         x: Game.GetX(0.5), y: Game.GetY(0.65), size: 80, color: SKColor.whiteColor(),
-                         align: SKLabelHorizontalAlignmentMode.Center, zPos: 4);
-        wanttobuy.setup("want to buy", name: "wanttobuy",
-                         x: Game.GetX(0.5), y: areyousure.frame.minY - areyousure.frame.height, size: 80, color: SKColor.whiteColor(),
-                         align: SKLabelHorizontalAlignmentMode.Center, zPos: 4);
-        itemname.setup("'" + item + "'?", name: "item",
-                        x: Game.GetX(0.5), y: wanttobuy.frame.minY - wanttobuy.frame.height, size: 80, color: SKColor.whiteColor(),
-                        align: SKLabelHorizontalAlignmentMode.Center, zPos: 4);
+        areyousure.setup(text: "Are you sure you", name: "areyousure",
+                         x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.65), size: 80, color: SKColor.white,
+                         align: SKLabelHorizontalAlignmentMode.center, zPos: 4);
+        wanttobuy.setup(text: "want to buy", name: "wanttobuy",
+                        x: Game.GetX(value: 0.5), y: areyousure.frame.minY - areyousure.frame.height, size: 80, color: SKColor.white,
+                        align: SKLabelHorizontalAlignmentMode.center, zPos: 4);
+        itemname.setup(text: "'" + item + "'?", name: "item",
+                       x: Game.GetX(value: 0.5), y: wanttobuy.frame.minY - wanttobuy.frame.height, size: 80, color: SKColor.white,
+                       align: SKLabelHorizontalAlignmentMode.center, zPos: 4);
         
-        cancel.setup("Cancel", name: "cancel_item",
-                         x: Game.GetX(0.25), y: Game.GetY(0.28), size: 80, color: SKColor.whiteColor(),
-                         align: SKLabelHorizontalAlignmentMode.Left, zPos: 4);
+        cancel.setup(text: "Cancel", name: "cancel_item",
+                     x: Game.GetX(value: 0.25), y: Game.GetY(value: 0.28), size: 80, color: SKColor.white,
+                     align: SKLabelHorizontalAlignmentMode.left, zPos: 4);
         
-        buy.setup("Buy", name: "buy_item",
-                  x: Game.GetX(0.75), y: Game.GetY(0.28), size: 80, color: SKColor.whiteColor(),
-                  align: SKLabelHorizontalAlignmentMode.Right, zPos: 4);
+        buy.setup(text: "Buy", name: "buy_item",
+                  x: Game.GetX(value: 0.75), y: Game.GetY(value: 0.28), size: 80, color: SKColor.white,
+                  align: SKLabelHorizontalAlignmentMode.right, zPos: 4);
         
         self.alpha = 1.0;
         getColour();
@@ -58,21 +58,21 @@ class toBuy : PopUp {
     
     func getColour(){
         if(Game.MenuBackgroundColor == 0x000000){
-            backgroundshape.fillColor = SKColor.whiteColor()
+            backgroundshape.fillColor = SKColor.white
             
-            areyousure.fontColor = SKColor.blackColor();
-            wanttobuy.fontColor = SKColor.blackColor();
-            itemname.fontColor = SKColor.blackColor();
-            buy.fontColor = SKColor.blackColor();
-            cancel.fontColor = SKColor.blackColor();
+            areyousure.fontColor = SKColor.black;
+            wanttobuy.fontColor = SKColor.black;
+            itemname.fontColor = SKColor.black;
+            buy.fontColor = SKColor.black;
+            cancel.fontColor = SKColor.black;
         }else{
-            backgroundshape.fillColor = SKColor.blackColor()
+            backgroundshape.fillColor = SKColor.black
             
-            areyousure.fontColor = SKColor.whiteColor()
-            wanttobuy.fontColor = SKColor.whiteColor()
-            itemname.fontColor = SKColor.whiteColor()
-            buy.fontColor = SKColor.whiteColor()
-            cancel.fontColor = SKColor.whiteColor()
+            areyousure.fontColor = SKColor.white
+            wanttobuy.fontColor = SKColor.white
+            itemname.fontColor = SKColor.white
+            buy.fontColor = SKColor.white
+            cancel.fontColor = SKColor.white
         }
     }
 

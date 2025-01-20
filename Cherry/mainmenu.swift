@@ -22,7 +22,7 @@ class mainmenu : cherrymenu {
     override init(size: CGSize) {
         super.init(size: size);
         //IMPORTNAT STUFF -- We do this because MainMenu is the firsts scene and always will be when the game is newly loaded
-            Game.setSceneValues(self.size); //Sets constants which we can use to determain screen sizes
+        Game.setSceneValues(size: self.size); //Sets constants which we can use to determain screen sizes
             Game.soundManager.SetupSounds(); //Setup our sound objects
             
             //Get saves
@@ -32,10 +32,10 @@ class mainmenu : cherrymenu {
             beforeLevel = Game.levelmanager.MaxLevel; //So we can display a hint when user unlocks a new colour
         //IMPORTANT STUFF
         
-        play_btn.setup("PLAY", name: "play", x: Game.GetX(0.5), y: Game.GetY(0.68), size: 130, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
-        highscore_btn.setup("HIGH SCORES", name: "scores", x: Game.GetX(0.5), y: Game.GetY(0.52), size: 130, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
-        settings_btn.setup("SETTINGS", name: "settings", x: Game.GetX(0.5), y: Game.GetY(0.36), size: 130, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
-        shop_btn.setup("SHOP", name: "shop", x: Game.GetX(0.5), y: Game.GetY(0.20), size: 130, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
+        play_btn.setup(text: "PLAY", name: "play", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.68), size: 130, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
+        highscore_btn.setup(text: "HIGH SCORES", name: "scores", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.52), size: 130, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
+        settings_btn.setup(text: "SETTINGS", name: "settings", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.36), size: 130, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
+        shop_btn.setup(text: "SHOP", name: "shop", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.20), size: 130, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
         
         addChild(play_btn);
         addChild(highscore_btn);
@@ -49,13 +49,13 @@ class mainmenu : cherrymenu {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view);
+    override func didMove(to view: SKView) {
+        super.didMove(to: view);
         
         if(beforeLevel < Game.levelmanager.MaxLevel){
             newcolour = true;
             beforeLevel = Game.levelmanager.MaxLevel;
-            addHint("New colour unlocked! Swipe left to show off")
+            addHint(text: "New colour unlocked! Swipe left to show off")
         }
     }
     
@@ -68,35 +68,35 @@ class mainmenu : cherrymenu {
         shop_btn.getColour();
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         var node:SKNode = SKNode();
         if let touch = touches.first {
-            let location = touch.locationInNode(self);
-            node = self.nodeAtPoint(location);
+            let location = touch.location(in: self);
+            node = self.atPoint(location);
             touchStartLoc = location; //Variable we need for swipeable background
         }
         
         if(node.name == "play"){
-            Game.soundManager.playSound("click");
+            Game.soundManager.playSound(str: "click");
             Game.skView.presentScene(Game.scenes_gamescene!,
-                                     transition: SKTransition.fadeWithColor(UIColor.blackColor(),
-                                        duration: NSTimeInterval(Game.SceneFade)));
+                                     transition: SKTransition.fade(with: UIColor.black,
+                                                                   duration: TimeInterval(Game.SceneFade)));
         }else if(node.name == "scores"){
-            Game.soundManager.playSound("click");
-            Game.skView.presentScene(Game.scenes_highscores!, transition: SKTransition.fadeWithColor(UIColor.blackColor(), duration: NSTimeInterval(Game.SceneFade)));
+            Game.soundManager.playSound(str: "click");
+            Game.skView.presentScene(Game.scenes_highscores!, transition: SKTransition.fade(with: UIColor.black, duration: TimeInterval(Game.SceneFade)));
         }else if(node.name == "shop"){
-            Game.soundManager.playSound("click");
+            Game.soundManager.playSound(str: "click");
             Game.skView.presentScene(Game.scenes_shop!,
-                                     transition: SKTransition.fadeWithColor(UIColor.blackColor(),
-                                        duration: NSTimeInterval(Game.SceneFade)));
+                                     transition: SKTransition.fade(with: UIColor.black,
+                                                                            duration: TimeInterval(Game.SceneFade)));
         }else if(node.name == "settings"){
-            Game.soundManager.playSound("click");
-            Game.skView.presentScene(Game.scenes_settings!, transition: SKTransition.fadeWithColor(UIColor.blackColor(), duration: NSTimeInterval(Game.SceneFade)));
+            Game.soundManager.playSound(str: "click");
+            Game.skView.presentScene(Game.scenes_settings!, transition: SKTransition.fade(with: UIColor.black, duration: TimeInterval(Game.SceneFade)));
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event);
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event);
     
         //Remove the new background hint when the user looks ta their new background
         if(BGselection == Game.levelmanager.MaxLevel && newcolour){

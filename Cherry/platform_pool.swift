@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit;
 
 class platform_pool {
-    var platformSize : CGSize = CGSize(width: Game.GetX(0.1), height: Game.GetY(0.025));
+    var platformSize : CGSize = CGSize(width: Game.GetX(value: 0.1), height: Game.GetY(value: 0.025));
     
     var platforms:[Platform] = [];
     var platforms_bouncy:[platform_bouncy] = [];
@@ -21,24 +21,24 @@ class platform_pool {
     
     func makePlatforms(){
         for _ in 0..<20 {
-            let platform:Platform = Platform(color: UIColor.whiteColor(), size: platformSize);
+            let platform:Platform = Platform(color: UIColor.white, size: platformSize);
             platforms.append(platform);
         }
         
         for _ in 0..<5 {
-            let platform:Platform = Platform(color: UIColor.whiteColor(), size: platformSize);
-            platforms.append(platform);
-        }
-
-        
-        for _ in 0..<5 {
-            let platform:Platform = Platform(color: UIColor.whiteColor(), size: platformSize);
+            let platform:Platform = Platform(color: UIColor.white, size: platformSize);
             platforms.append(platform);
         }
 
         
         for _ in 0..<5 {
-            let platform:Platform = Platform(color: UIColor.whiteColor(), size: platformSize);
+            let platform:Platform = Platform(color: UIColor.white, size: platformSize);
+            platforms.append(platform);
+        }
+
+        
+        for _ in 0..<5 {
+            let platform:Platform = Platform(color: UIColor.white, size: platformSize);
             platforms.append(platform);
         }
     }

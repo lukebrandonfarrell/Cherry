@@ -11,64 +11,53 @@ import SpriteKit
 
 class save {
     //Core
-        let saved = NSUserDefaults.standardUserDefaults();
+    let saved = UserDefaults.standard;
     
     //Save
-        func saveObject(data:AnyObject, key:String){
-            saved.setObject(data, forKey: key);
+        func saveObject<T>(data: T, key: String) {
+            saved.set(data, forKey: key)
         }
 
         func saveBool(data:Bool, key:String){
-            saved.setBool(data, forKey: key);
+            saved.set(data, forKey: key);
         }
     
         func saveInteger(data:Int, key:String){
-            saved.setInteger(data, forKey: key);
+            saved.set(data, forKey: key);
         }
 
         func saveFloat(data:CGFloat, key:String){
-            saved.setFloat(Float(data), forKey: key);
+            saved.set(Float(data), forKey: key);
         }
     
     //load
         func loadObject(key:String) -> AnyObject? {
-            if let data:AnyObject = saved.objectForKey(key) {
-                return data;
-            }else{
-                return nil;
-            }
+            return saved.object(forKey: key) as? AnyObject
         }
 
-        func loadBool(key:String) -> AnyObject? {
-            if let data:Bool = saved.boolForKey(key) {
-                return data;
-            }else{
-                return nil;
+        func loadBool(key:String) -> Bool? {
+            if saved.object(forKey: key) != nil {
+                return saved.bool(forKey: key)
             }
+            return nil
         }
     
-        func loadArray(key:String) -> Array<AnyObject>? {
-            if let data:Array<AnyObject> = saved.arrayForKey(key) {
-                return data;
-            }else{
-                return nil;
-            }
+        func loadArray(key: String) -> [Int]? {
+            return saved.array(forKey: key) as? [Int]
         }
 
         func loadInteger(key:String) -> Int? {
-            if let data:Int = saved.integerForKey(key) {
-                return data;
-            }else{
-                return nil;
+            if saved.object(forKey: key) != nil {
+                return saved.integer(forKey: key)
             }
+            return nil
         }
     
         func loadFloat(key:String) -> CGFloat? {
-            if let data:CGFloat = CGFloat(saved.floatForKey(key)) {
-                return data;
-            }else{
-                return nil;
+            if saved.object(forKey: key) != nil {
+                return CGFloat(saved.float(forKey: key))
             }
+            return nil
         }
 
 
@@ -117,53 +106,44 @@ class save {
     
     //Specific to game
         func getAllData(){
-            let highscore:AnyObject? = loadArray(keyHighscore);
-            let purchaseabilities:AnyObject? = loadObject(keyPurchasedAbilities);
+            if let highscore = saved.array(forKey: keyHighscore) as? [Int] {
+                Game.highscore = highscore
+            }
             
-            var bgcolour:Int? = loadInteger(keyBGColour);
-            let maxlevel:Int? = loadInteger(keyMaxLevel);
+            if let purchaseabilities = saved.dictionary(forKey: keyPurchasedAbilities) as? [String: Int] {
+                Game.avalible_ablities = purchaseabilities
+            }
             
-            let cherries:Int? = loadInteger(keyCherry);
-            let bananas:Int? = loadInteger(keyBanana);
-            let pineapples:Int? = loadInteger(keyPineapple);
-            let grapes:Int? = loadInteger(keyGrape);
+            var bgcolour:Int? = loadInteger(key: keyBGColour);
+            let maxlevel:Int? = loadInteger(key: keyMaxLevel);
+            
+            let cherries:Int? = loadInteger(key: keyCherry);
+            let bananas:Int? = loadInteger(key: keyBanana);
+            let pineapples:Int? = loadInteger(key: keyPineapple);
+            let grapes:Int? = loadInteger(key: keyGrape);
 
-            let numofdeaths:Int? = loadInteger(keyNumOfDeaths);
-            let timeplayed:Int? = loadInteger(keyTimePlayed);
+            let numofdeaths:Int? = loadInteger(key: keyNumOfDeaths);
+            let timeplayed:Int? = loadInteger(key: keyTimePlayed);
             
-            let controls:Int? = loadInteger(keyControls);
-            let tiltmov:Int? = loadInteger(keyTiltMovement);
+            let controls:Int? = loadInteger(key: keyControls);
+            let tiltmov:Int? = loadInteger(key: keyTiltMovement);
             
             //Load Physics values
             /*let physicsballspeedX:CGFloat? = loadFloat(keyBallspeed);
             let physicsjumpX:CGFloat? = loadFloat(keyJump);
             let physicsgravityX:CGFloat? = loadFloat(keyGravity);
-            let physicstiltX:CGFloat? = loadFloat(keyTilt);
+            let physicstiltX:CGFloat? = loadFloat(keyTilt);*/
             
-            //Load Slider positions
-            let physicscurrentballspeed:CGFloat? = loadFloat(keyCurrentBallspeed);
-            let physicscurrentjump:CGFloat? = loadFloat(keyCurrentJump);
-            let physicscurrentgravity:CGFloat? = loadFloat(keyCurrentGravity);
-            let physicscurrenttilt:CGFloat? = loadFloat(keyCurrentTilt);*/
-            
-            if(highscore != nil){
-                Game.highscore = highscore! as! [Int];
-            }
-            
-            if(purchaseabilities != nil){
-                Game.avalible_ablities = purchaseabilities! as! [String : Int];
+            if saved.object(forKey: keySoundFX) != nil {
+                Game.soundFX = saved.bool(forKey: keySoundFX)
             }
 
-            if let soundfx: AnyObject = NSUserDefaults.standardUserDefaults().objectForKey(keySoundFX) {
-                Game.soundFX = soundfx as! Bool;
-            }
-
-            if let autoplay: AnyObject = NSUserDefaults.standardUserDefaults().objectForKey(keyAutoplay){
-                Game.autoplayON = autoplay as! Bool;
+            if saved.object(forKey: keyAutoplay) != nil {
+                Game.autoplayON = saved.bool(forKey: keyAutoplay)
             }
             
-            if let handed: AnyObject = NSUserDefaults.standardUserDefaults().objectForKey(keyHanded){
-                Game.ability_bar.orientation = handed as! Bool;
+            if saved.object(forKey: keyHanded) != nil {
+                Game.ability_bar.orientation = saved.bool(forKey: keyHanded)
             }
             
             if(bgcolour != nil){
@@ -250,41 +230,41 @@ class save {
         }
     
     func saveMenuData() {
-        saveInteger((Game.tiltmovement ? 1 : 0), key: keyTiltMovement);
-        saveBool(Game.musicON, key: keyMusic)
-        saveBool(Game.soundFX, key: keySoundFX);
-        saveBool(Game.autoplayON, key: keyAutoplay)
-        saveBool(Game.ability_bar.orientation, key: keyHanded)
+        saveInteger(data: (Game.tiltmovement ? 1 : 0), key: keyTiltMovement);
+        saveBool(data: Game.musicON, key: keyMusic)
+        saveBool(data: Game.soundFX, key: keySoundFX);
+        saveBool(data: Game.autoplayON, key: keyAutoplay)
+        saveBool(data: Game.ability_bar.orientation, key: keyHanded)
     }
     
     func saveEndGameData(){
-        saveInteger(Game.MenuBackgroundColor, key: keyBGColour)
-        saveObject(Game.highscore, key: keyHighscore);
+        saveInteger(data: Game.MenuBackgroundColor, key: keyBGColour)
+        saveObject(data: Game.highscore, key: keyHighscore);
         
-        saveInteger(Stats.numberOfDeaths, key: keyNumOfDeaths);
-        saveInteger(Stats.timePlayed, key: keyTimePlayed);
+        saveInteger(data: Stats.numberOfDeaths, key: keyNumOfDeaths);
+        saveInteger(data: Stats.timePlayed, key: keyTimePlayed);
         
         saveFruit();
     }
     
     func saveFruit(){
-        saveInteger(Stats.cheriesCollected, key: keyCherry);
-        saveInteger(Stats.bananasCollected, key: keyBanana);
-        saveInteger(Stats.pineapplesCollected, key: keyPineapple);
-        saveInteger(Stats.grapesCollected, key: keyGrape);
+        saveInteger(data: Stats.cheriesCollected, key: keyCherry);
+        saveInteger(data: Stats.bananasCollected, key: keyBanana);
+        saveInteger(data: Stats.pineapplesCollected, key: keyPineapple);
+        saveInteger(data: Stats.grapesCollected, key: keyGrape);
     }
     
     func savePhysicsData(){
-        saveFloat(Physics.ballspeed, key: keyCurrentBallspeed)
-        saveFloat(Physics.jump, key: keyCurrentJump)
-        saveFloat(Physics.gravity, key: keyCurrentGravity)
-        saveFloat(Physics.tilt, key: keyCurrentTilt)
+        saveFloat(data: Physics.ballspeed, key: keyCurrentBallspeed)
+        saveFloat(data: Physics.jump, key: keyCurrentJump)
+        saveFloat(data: Physics.gravity, key: keyCurrentGravity)
+        saveFloat(data: Physics.tilt, key: keyCurrentTilt)
         
-        saveBool(Physics.walls, key: keyWalls)
+        saveBool(data: Physics.walls, key: keyWalls)
         
-        saveFloat(Physics.ballspeedX, key: keyBallspeed);
-        saveFloat(Physics.jumpX, key: keyJump);
-        saveFloat(Physics.gravityX, key: keyGravity)
-        saveFloat(Physics.tiltX, key: keyTilt)
+        saveFloat(data: Physics.ballspeedX, key: keyBallspeed);
+        saveFloat(data: Physics.jumpX, key: keyJump);
+        saveFloat(data: Physics.gravityX, key: keyGravity)
+        saveFloat(data: Physics.tiltX, key: keyTilt)
     }
 }

@@ -44,82 +44,80 @@ class AbilityBar : GameObject {
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
         
-        topfruit.setup(0, y: 0, size: 1.0, zPos: 1);
+        topfruit.setup(x: 0, y: 0, size: 1.0, zPos: 1);
         topfruit.name = "topfruit";
         topfruit.alpha = 0;
         addChild(topfruit);
         
-        fruitadox.setup(0, y: 0, size: 1.0, zPos: 1);
+        fruitadox.setup(x: 0, y: 0, size: 1.0, zPos: 1);
         fruitadox.name = "fruitadox";
         fruitadox.alpha = 0;
         addChild(fruitadox);
         
-        sweetfruit.setup(0, y: 0, size: 1.0, zPos: 1);
+        sweetfruit.setup(x: 0, y: 0, size: 1.0, zPos: 1);
         sweetfruit.name = "sweetfruit";
         sweetfruit.alpha = 0;
         addChild(sweetfruit);
         
-        fruitbowl.setup(0, y: 0, size: 1.0, zPos: 1);
+        fruitbowl.setup(x: 0, y: 0, size: 1.0, zPos: 1);
         fruitbowl.name = "fruitbowl";
         fruitbowl.alpha = 0;
         addChild(fruitbowl);
         
-        teleport.setup(0, y: 0, size: 1.0, zPos: 1);
+        teleport.setup(x: 0, y: 0, size: 1.0, zPos: 1);
         teleport.name = "teleport";
         teleport.alpha = 0;
         addChild(teleport);
         
-        theripening.setup(0, y: 0, size: 1.0, zPos: 1);
+        theripening.setup(x: 0, y: 0, size: 1.0, zPos: 1);
         theripening.name = "theripening";
         theripening.alpha = 0;
         addChild(theripening);
         
-        open_abilities.setup(0, y: 0, size: 1.0, zPos: 1);
+        open_abilities.setup(x: 0, y: 0, size: 1.0, zPos: 1);
         open_abilities.name = "open";
         addChild(open_abilities);
         
         //Ability possible screen positions
-            var l_count:CGFloat = 0.0;
-            for(var l=0; l<7; l += 1) {
-                var ability_pos:CGPoint = CGPoint(x: 0, y: 0);
+            var l_count: CGFloat = 0.0
+            for l in 0..<7 {
+                var ability_pos = CGPoint(x: 0, y: 0)
                 
-                //if(l % 2 == 1 || p == 0 || p == 1){
-                ability_pos.x = 0;
+                ability_pos.x = 0
+                ability_pos.y = (topfruit.size.height * 1.25) * l_count
+                abilityPositions.append(ability_pos)
                 
-                ability_pos.y = (topfruit.size.height * 1.25) * l_count;
-                abilityPositions.append(ability_pos);
-                
-                if(l % 2 == 0 || l == 0){
-                    l_count++;
+                if l % 2 == 0 || l == 0 {
+                    l_count += 1
                 }
             }
         
         var textsize:CGFloat = 45;
-        if(UIDevice.currentDevice().isiPad()){
+        if(UIDevice.current.isiPad()){
             textsize = 100;
         }
         
-        topfruit_amount.setup("0", name: "topfruit_amount", x: 0, y: 0, size: textsize, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Left, zPos: 1.0)
+        topfruit_amount.setup(text: "0", name: "topfruit_amount", x: 0, y: 0, size: textsize, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.left, zPos: 1.0)
         topfruit_amount.alpha = 0;
         addChild(topfruit_amount);
         
-        fruitadox_amount.setup("0", name: "fruitadox_amount", x: 0, y: 0, size: textsize, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Left, zPos: 1.0)
+        fruitadox_amount.setup(text: "0", name: "fruitadox_amount", x: 0, y: 0, size: textsize, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.left, zPos: 1.0)
         fruitadox_amount.alpha = 0;
         addChild(fruitadox_amount);
         
-        sweetfruit_amount.setup("0", name: "sweetfruit_amount", x: 0, y: 0, size: textsize, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Left, zPos: 1.0)
+        sweetfruit_amount.setup(text: "0", name: "sweetfruit_amount", x: 0, y: 0, size: textsize, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.left, zPos: 1.0)
         sweetfruit_amount.alpha = 0;
         addChild(sweetfruit_amount);
         
-        fruitbowl_amount.setup("0", name: "fruitbowl_amount", x: 0, y: 0, size: textsize, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Left, zPos: 1.0)
+        fruitbowl_amount.setup(text: "0", name: "fruitbowl_amount", x: 0, y: 0, size: textsize, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.left, zPos: 1.0)
         fruitbowl_amount.alpha = 0;
         addChild(fruitbowl_amount);
         
-        teleport_amount.setup("0", name: "teleport_amount", x: 0, y: 0, size: textsize, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Left, zPos: 1.0)
+        teleport_amount.setup(text: "0", name: "teleport_amount", x: 0, y: 0, size: textsize, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.left, zPos: 1.0)
         teleport_amount.alpha = 0
         addChild(teleport_amount);
         
-        theripening_amount.setup("0", name: "theripening_amount", x: 0, y: 0, size: textsize, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Left, zPos: 1.0)
+        theripening_amount.setup(text: "0", name: "theripening_amount", x: 0, y: 0, size: textsize, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.left, zPos: 1.0)
         theripening_amount.alpha = 0;
         addChild(theripening_amount);
     }
@@ -144,12 +142,12 @@ class AbilityBar : GameObject {
         theripening.texture = Game.GameInvertedColour ? Game.textures.theripening_inverted() : Game.textures.theripening();
         open_abilities.texture = Game.GameInvertedColour ? Game.textures.open_inverted() : Game.textures.open();
         
-        topfruit_amount.fontColor = Game.GameInvertedColour ? UIColor.blackColor() : UIColor.whiteColor();
-        fruitadox_amount.fontColor = Game.GameInvertedColour ? UIColor.blackColor() : UIColor.whiteColor();
-        sweetfruit_amount.fontColor = Game.GameInvertedColour ? UIColor.blackColor() : UIColor.whiteColor();
-        fruitbowl_amount.fontColor = Game.GameInvertedColour ? UIColor.blackColor() : UIColor.whiteColor();
-        teleport_amount.fontColor = Game.GameInvertedColour ? UIColor.blackColor() : UIColor.whiteColor();
-        theripening_amount.fontColor = Game.GameInvertedColour ? UIColor.blackColor() : UIColor.whiteColor();
+        topfruit_amount.fontColor = Game.GameInvertedColour ? UIColor.black : UIColor.white;
+        fruitadox_amount.fontColor = Game.GameInvertedColour ? UIColor.black : UIColor.white;
+        sweetfruit_amount.fontColor = Game.GameInvertedColour ? UIColor.black : UIColor.white;
+        fruitbowl_amount.fontColor = Game.GameInvertedColour ? UIColor.black : UIColor.white;
+        teleport_amount.fontColor = Game.GameInvertedColour ? UIColor.black : UIColor.white;
+        theripening_amount.fontColor = Game.GameInvertedColour ? UIColor.black : UIColor.white;
         
         //We add the open ability tool bar option, only if abilities have been purchased
             ability_exsists = false;
@@ -166,7 +164,7 @@ class AbilityBar : GameObject {
         //topfruit
         if(Game.avalible_ablities["topfruit"] != nil)
         {
-            if(Game.avalible_ablities["topfruit"] > 0){
+            if(Game.avalible_ablities["topfruit"]! > 0){
                 if(Game.topfruit_auto_active == 1 && deactivate != "topfruit"){
                     topfruit_visibility = 1.0;
                     Game.topfruit_active = true;
@@ -183,7 +181,7 @@ class AbilityBar : GameObject {
                 topfruit.position.x = avaliblePositions[0].x;
                 
                 topfruit_amount.text = String(Game.avalible_ablities["topfruit"]!);
-                topfruit_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.Left : SKLabelHorizontalAlignmentMode.Right;
+                topfruit_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.left : SKLabelHorizontalAlignmentMode.right;
                 topfruit_amount.position.x = orientation ? topfruit.position.x + topfruit.size.width / 1.6 : topfruit.position.x - topfruit.size.width / 1.6;
                 topfruit_amount.position.y = topfruit.frame.midY - 15;
  
@@ -199,7 +197,7 @@ class AbilityBar : GameObject {
         //fruitadox
         if(Game.avalible_ablities["fruitadox"] != nil)
         {
-            if(Game.avalible_ablities["fruitadox"] > 0){
+            if(Game.avalible_ablities["fruitadox"]! > 0){
                 if(Game.fruitadox_auto_active == 1 && deactivate != "fruitadox"){
                     fruitadox_visibility = 1.0;
                     Game.fruitadox_active = true;
@@ -213,7 +211,7 @@ class AbilityBar : GameObject {
                 fruitadox.position.x = avaliblePositions[0].x;
                 
                 fruitadox_amount.text = String(Game.avalible_ablities["fruitadox"]!);
-                fruitadox_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.Left : SKLabelHorizontalAlignmentMode.Right;
+                fruitadox_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.left : SKLabelHorizontalAlignmentMode.right;
                 fruitadox_amount.position.x = orientation ? fruitadox.position.x + fruitadox.size.width / 1.6 : fruitadox.position.x - fruitadox.size.width / 1.6;
                 fruitadox_amount.position.y = fruitadox.frame.midY - 15;
 
@@ -229,7 +227,7 @@ class AbilityBar : GameObject {
         //sweetfruit
         if(Game.avalible_ablities["sweetfruit"] != nil)
         {
-            if(Game.avalible_ablities["sweetfruit"] > 0){
+            if(Game.avalible_ablities["sweetfruit"]! > 0){
                 if(Game.sweetfruit_auto_active == 1 && deactivate != "sweetfruit"){
                     sweetfruit_visibility = 1.0;
                     Game.sweetfruit_active = true;
@@ -243,7 +241,7 @@ class AbilityBar : GameObject {
                 sweetfruit.position.x = avaliblePositions[0].x;
                 
                 sweetfruit_amount.text = String(Game.avalible_ablities["sweetfruit"]!);
-                sweetfruit_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.Left : SKLabelHorizontalAlignmentMode.Right;
+                sweetfruit_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.left : SKLabelHorizontalAlignmentMode.right;
                 sweetfruit_amount.position.x = orientation ? sweetfruit.position.x + sweetfruit.size.width / 1.6 : sweetfruit.position.x - sweetfruit.size.width / 1.6;
                 sweetfruit_amount.position.y = sweetfruit.frame.midY - 15;
                 
@@ -259,7 +257,7 @@ class AbilityBar : GameObject {
         //fruitbowl
         if(Game.avalible_ablities["fruitbowl"] != nil)
         {
-            if(Game.avalible_ablities["fruitbowl"] > 0){
+            if(Game.avalible_ablities["fruitbowl"]! > 0){
                 if(Game.fruitbowl_auto_active == 1 && deactivate != "fruitbowl"){
                     fruitbowl_visibility = 1.0
                     Game.fruitbowl_active = true;
@@ -273,7 +271,7 @@ class AbilityBar : GameObject {
                 fruitbowl.position.x = avaliblePositions[0].x;
                 
                 fruitbowl_amount.text = String(Game.avalible_ablities["fruitbowl"]!);
-                fruitbowl_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.Left : SKLabelHorizontalAlignmentMode.Right;
+                fruitbowl_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.left : SKLabelHorizontalAlignmentMode.right;
                 fruitbowl_amount.position.x = orientation ? fruitbowl.position.x + fruitbowl.size.width / 1.6 : fruitbowl.position.x - fruitbowl.size.width / 1.6;
                 fruitbowl_amount.position.y = fruitbowl.frame.midY - 15;
                 
@@ -289,7 +287,7 @@ class AbilityBar : GameObject {
         //teleport
         if(Game.avalible_ablities["teleport"] != nil)
         {
-            if(Game.avalible_ablities["teleport"] > 0){
+            if(Game.avalible_ablities["teleport"] ?? 0 > 0){
                 if(Game.teleport_auto_active == 1 && deactivate != "teleport"){
                     teleport_visibility = 1.0;
                     Game.teleport_active = true;
@@ -303,7 +301,7 @@ class AbilityBar : GameObject {
                 teleport.position.x = avaliblePositions[0].x;
                 
                 teleport_amount.text = String(Game.avalible_ablities["teleport"]!);
-                teleport_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.Left : SKLabelHorizontalAlignmentMode.Right;
+                teleport_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.left : SKLabelHorizontalAlignmentMode.right;
                 teleport_amount.position.x = orientation ? teleport.position.x + teleport.size.width / 1.6 : teleport.position.x - teleport.size.width / 1.6;
                 teleport_amount.position.y = teleport.frame.midY - 15;
 
@@ -319,7 +317,7 @@ class AbilityBar : GameObject {
         //theripening
         if(Game.avalible_ablities["theripening"] != nil)
         {
-            if(Game.avalible_ablities["theripening"] > 0){
+            if(Game.avalible_ablities["theripening"]! > 0){
                 if(Game.theripening_auto_active == 1 && deactivate != "theripening"){
                     theripening_visibility = 1.0
                     Game.theripening_active = true;
@@ -333,7 +331,7 @@ class AbilityBar : GameObject {
                 theripening.position.x = avaliblePositions[0].x;
                 
                 theripening_amount.text = String(Game.avalible_ablities["theripening"]!);
-                theripening_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.Left : SKLabelHorizontalAlignmentMode.Right;
+                theripening_amount.horizontalAlignmentMode = orientation ? SKLabelHorizontalAlignmentMode.left : SKLabelHorizontalAlignmentMode.right;
                 theripening_amount.position.x = orientation ? theripening.position.x + theripening.size.width / 1.6 : theripening.position.x - theripening.size.width / 1.6;
                 theripening_amount.position.y = theripening.frame.midY - 15;
                 
@@ -349,7 +347,7 @@ class AbilityBar : GameObject {
     }
     
     func opencloseAbilities(){
-        Game.soundManager.playSound("click");
+        Game.soundManager.playSound(str: "click");
         abilityBarOpen = !abilityBarOpen;
         loadAbilities();
     }
@@ -403,7 +401,7 @@ class AbilityBar : GameObject {
     }
     
     func dismissAbilityBar(){
-        Game.soundManager.playSound("click");
+        Game.soundManager.playSound(str: "click");
         abilityBarOpen = false;
         updateAbilityBar();
     }
@@ -413,16 +411,16 @@ class AbilityBar : GameObject {
             if(Game.avalible_ablities[a]! > 0){
                 Game.avalible_ablities[a]! -= 1;
             }
-            loadAbilities(a);
-            Game.saveGame.saveObject(Game.avalible_ablities, key: Game.saveGame.keyPurchasedAbilities)
+            loadAbilities(deactivate: a);
+            Game.saveGame.saveObject(data: Game.avalible_ablities, key: Game.saveGame.keyPurchasedAbilities)
         }
     }
     
     func loadSide(){
         if(orientation){
-            self.position.x = Game.GetX(0.05);
+            self.position.x = Game.GetX(value: 0.05);
         }else{
-            self.position.x = Game.GetX(0.95);
+            self.position.x = Game.GetX(value: 0.95);
         }
         
         loadAbilities();

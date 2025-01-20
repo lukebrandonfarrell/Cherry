@@ -16,22 +16,23 @@ class ScoreLine : GameObject {
         super.init(texture: texture, color: color, size: size)
         
         let line:SKShapeNode = SKShapeNode()
-        let path:CGMutablePathRef = CGPathCreateMutable();
+        let path:CGMutablePath = CGMutablePath();
         
-        CGPathMoveToPoint(path, nil, 0, 0)
-        CGPathAddLineToPoint(path, nil, Game.sceneWidth, 0)
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: Game.sceneWidth, y: 0))
         
-        let pattern:[CGFloat] = [10.0, 10.0];
-        let dashedpath = CGPathCreateCopyByDashingPath(path, nil, 0, pattern, 2);
+        let pattern: [CGFloat] = [10.0, 10.0]
+        let dashedpath = path.copy(dashingWithPhase: 0,
+                                  lengths: pattern)
         
         line.path = dashedpath
         line.lineWidth = 2;
-        line.fillColor = SKColor.whiteColor();
-        line.strokeColor = SKColor.whiteColor();
+        line.fillColor = SKColor.white;
+        line.strokeColor = SKColor.white;
         
         addChild(line)
         
-        linetext.setup("0", name: "linetext", x: 0, y: Game.GetY(0.01), size: 35, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Left, zPos: 1)
+        linetext.setup(text: "0", name: "linetext", x: 0, y: Game.GetY(value: 0.01), size: 35, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.left, zPos: 1)
         addChild(linetext);
     }
     

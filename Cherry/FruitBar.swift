@@ -28,12 +28,12 @@ class FruitBar : GameObject {
         super.init(texture: texture, color: color, size: size)
         
         var textsize:CGFloat = 100;
-        if(UIDevice.currentDevice().isiPad()){
+        if(UIDevice.current.isiPad()){
             textsize = 45;
         }
         
-        cherry_score.setup("0", name: "cherry_score", x: 0, y: 0, size: textsize, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Right, zPos: 1);
-        cherry_icon.setup(0,
+        cherry_score.setup(text: "0", name: "cherry_score", x: 0, y: 0, size: textsize, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.right, zPos: 1);
+        cherry_icon.setup(x: 0,
                           y: cherry_score.frame.midY, size: 1.0,
                           zPos: 1);
         
@@ -42,18 +42,18 @@ class FruitBar : GameObject {
                           zPos: 6);
         fruitbag.name = "fruitbag";*/
         
-        banana_score.setup("0", name: "banana_score", x: 0, y: 0, size: textsize, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Right, zPos: 1);
-        banana_icon.setup(0,
+        banana_score.setup(text: "0", name: "banana_score", x: 0, y: 0, size: textsize, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.right, zPos: 1);
+        banana_icon.setup(x: 0,
                           y: banana_score.frame.midY, size: 1.0,
                           zPos: 1);
         
-        pineapple_score.setup("0", name: "pineapple_score", x: 0, y: 0, size: textsize, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Right, zPos: 1);
-        pineapple_icon.setup(0,
+        pineapple_score.setup(text: "0", name: "pineapple_score", x: 0, y: 0, size: textsize, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.right, zPos: 1);
+        pineapple_icon.setup(x: 0,
                              y: pineapple_score.frame.midY, size: 1.0,
                              zPos: 1);
         
-        grape_score.setup("0", name: "grape_score", x: 0, y: 0, size: textsize, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Right, zPos: 1);
-        grape_icon.setup(0,
+        grape_score.setup(text: "0", name: "grape_score", x: 0, y: 0, size: textsize, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.right, zPos: 1);
+        grape_icon.setup(x: 0,
                          y: grape_score.frame.midY, size: 1.0,
                          zPos: 1);
         

@@ -10,8 +10,8 @@ import Foundation
 import SpriteKit;
 
 class CherryCheckbox : GameObject {
-    var box : ShapeObject = ShapeObject(rect: CGRect(x: 0, y: 0, width: Game.GetX(0.04), height: Game.GetX(0.04)));
-    var checkedColour:SKColor = SKColor.whiteColor();
+    var box : ShapeObject = ShapeObject(rect: CGRect(x: 0, y: 0, width: Game.GetX(value: 0.04), height: Game.GetX(value: 0.04)));
+    var checkedColour:SKColor = SKColor.white;
     var checked : Bool = false;
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
@@ -50,13 +50,13 @@ class CherryCheckbox : GameObject {
     
     func getColour(){
         if(Game.MenuBackgroundColor == 0xFFFFFF){
-            box.strokeColor = SKColor.blackColor();
-            box.fillColor = SKColor.blackColor();
-            checkedColour = SKColor.blackColor();
+            box.strokeColor = SKColor.black;
+            box.fillColor = SKColor.black;
+            checkedColour = SKColor.black;
         }else{
-            box.strokeColor = SKColor.whiteColor();
-            box.fillColor = SKColor.whiteColor();
-            checkedColour = SKColor.whiteColor();
+            box.strokeColor = SKColor.white;
+            box.fillColor = SKColor.white;
+            checkedColour = SKColor.white;
         }
         
         if(!checked){

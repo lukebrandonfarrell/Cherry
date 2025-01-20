@@ -21,11 +21,11 @@ class Pause: PopUp {
         
         setupBG();
         
-        resume_btn.setup("RESUME", name: "resume", x: Game.GetX(0.5), y: Game.GetY(0.68), size: 65, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 4);
-        soundfx_btn.setup("SOUNDFX ON", name: "soundfx", x: Game.GetX(0.5), y: Game.GetY(0.57), size: 65, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 4);
-        autoresume_btn.setup("AUTOPLAY OFF", name: "autoplay", x: Game.GetX(0.5), y: Game.GetY(0.47), size: 65, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 4)
-        righthanded_btn.setup("RIGHT HANDED", name: "orientation", x: Game.GetX(0.5), y: Game.GetY(0.37), size: 65, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 4)
-        quit_btn.setup("QUIT", name: "quit", x: Game.GetX(0.5), y: Game.GetY(0.26), size: 65, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 4);
+        resume_btn.setup(text: "RESUME", name: "resume", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.68), size: 65, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 4);
+        soundfx_btn.setup(text: "SOUNDFX ON", name: "soundfx", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.57), size: 65, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 4);
+        autoresume_btn.setup(text: "AUTOPLAY OFF", name: "autoplay", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.47), size: 65, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 4)
+        righthanded_btn.setup(text: "RIGHT HANDED", name: "orientation", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.37), size: 65, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 4)
+        quit_btn.setup(text: "QUIT", name: "quit", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.26), size: 65, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 4);
         
         addChild(resume_btn);
         addChild(soundfx_btn);

@@ -18,14 +18,14 @@ class PopUp : GameObject {
     let backgroundfaded : ShapeObject = ShapeObject(rect: CGRect(x: 0, y: 0, width: Game.sceneWidth, height: Game.sceneHeight));
     
     func setupBG(){
-        backgroundshape.path = UIBezierPath(roundedRect: CGRect(x: Game.GetX(0.2), y: Game.GetY(0.2), width: Game.GetX(0.6), height: Game.GetY(0.6)), cornerRadius: 25).CGPath;
-        backgroundshape.fillColor = SKColor.blackColor();
+        backgroundshape.path = UIBezierPath(roundedRect: CGRect(x: Game.GetX(value: 0.2), y: Game.GetY(value: 0.2), width: Game.GetX(value: 0.6), height: Game.GetY(value: 0.6)), cornerRadius: 25).cgPath;
+        backgroundshape.fillColor = SKColor.black;
         backgroundshape.alpha = 0.4;
         addChild(backgroundshape);
         backgroundshape.lineWidth = 0.0;
         backgroundshape.zPosition = 3;
         
-        backgroundfaded.fillColor = SKColor.blackColor();
+        backgroundfaded.fillColor = SKColor.black;
         backgroundfaded.alpha = 0.4;
         backgroundfaded.lineWidth = 0.0;
         addChild(backgroundfaded);

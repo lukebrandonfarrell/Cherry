@@ -39,40 +39,40 @@ class physicsroom : cherrymenu {
         loadBackground();
         loadHint(); //If scene uses hints, load this
         
-        physcisroomtitle.setup("PHYSICS ROOM", name: "physicsroom", x: Game.GetX(0.5), y: Game.GetY(0.8), size: 150, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
-        tagline.setup("If only you could alter physics. oh wait! You can…", name: "tagline", x: Game.GetX(0.5), y: Game.GetY(0.7), size:55, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
+        physcisroomtitle.setup(text: "PHYSICS ROOM", name: "physicsroom", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.8), size: 150, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
+        tagline.setup(text: "If only you could alter physics. oh wait! You can…", name: "tagline", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.7), size:55, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
         
         
-        ballspeed_text.setup("Speed", name: "ballspeed",
-                      x: Game.GetX(0.22), y: Game.GetY(0.54),
-                      size: 55, color: SKColor.whiteColor(),
-                      align: SKLabelHorizontalAlignmentMode.Right, zPos: 1);
-        jump_text.setup("Jump", name: "jump",
-                      x: Game.GetX(0.22), y: Game.GetY(0.38),
-                      size: 55, color: SKColor.whiteColor(),
-                      align: SKLabelHorizontalAlignmentMode.Right, zPos: 1);
-        walls_text.setup("Walls", name: "walls",
-                         x: Game.GetX(0.22), y: Game.GetY(0.20),
-                         size: 55, color: SKColor.whiteColor(),
-                         align: SKLabelHorizontalAlignmentMode.Right, zPos: 1);
+        ballspeed_text.setup(text: "Speed", name: "ballspeed",
+                             x: Game.GetX(value: 0.22), y: Game.GetY(value: 0.54),
+                             size: 55, color: SKColor.white,
+                             align: SKLabelHorizontalAlignmentMode.right, zPos: 1);
+        jump_text.setup(text: "Jump", name: "jump",
+                        x: Game.GetX(value: 0.22), y: Game.GetY(value: 0.38),
+                        size: 55, color: SKColor.white,
+                        align: SKLabelHorizontalAlignmentMode.right, zPos: 1);
+        walls_text.setup(text: "Walls", name: "walls",
+                         x: Game.GetX(value: 0.22), y: Game.GetY(value: 0.20),
+                         size: 55, color: SKColor.white,
+                         align: SKLabelHorizontalAlignmentMode.right, zPos: 1);
         
         
-        tilt_text.setup("tilt", name: "tilt",
-                      x: Game.GetX(0.62), y: Game.GetY(0.54),
-                      size: 55, color: SKColor.whiteColor(),
-                      align: SKLabelHorizontalAlignmentMode.Right, zPos: 1);
-        gravity_text.setup("Gravity", name: "gravity",
-                           x: Game.GetX(0.62), y: Game.GetY(0.38),
-                           size: 55, color: SKColor.whiteColor(),
-                           align: SKLabelHorizontalAlignmentMode.Right, zPos: 1);
+        tilt_text.setup(text: "tilt", name: "tilt",
+                        x: Game.GetX(value: 0.62), y: Game.GetY(value: 0.54),
+                        size: 55, color: SKColor.white,
+                        align: SKLabelHorizontalAlignmentMode.right, zPos: 1);
+        gravity_text.setup(text: "Gravity", name: "gravity",
+                           x: Game.GetX(value: 0.62), y: Game.GetY(value: 0.38),
+                           size: 55, color: SKColor.white,
+                           align: SKLabelHorizontalAlignmentMode.right, zPos: 1);
         
-        reset_text.setup("RESET", name: "reset",
-                         x: Game.GetX(0.96), y: Game.GetY(0.05),
-                         size: 60, color: SKColor.whiteColor(),
-                         align: SKLabelHorizontalAlignmentMode.Right, zPos: 1);
+        reset_text.setup(text: "RESET", name: "reset",
+                         x: Game.GetX(value: 0.96), y: Game.GetY(value: 0.05),
+                         size: 60, color: SKColor.white,
+                         align: SKLabelHorizontalAlignmentMode.right, zPos: 1);
        
         
-        back_btn.setup("BACK", name: "back", x: Game.GetX(0.04), y: Game.GetY(0.05), size: 60, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Left, zPos: 1);
+        back_btn.setup(text: "BACK", name: "back", x: Game.GetX(value: 0.04), y: Game.GetY(value: 0.05), size: 60, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.left, zPos: 1);
         
         addChild(physcisroomtitle);
         addChild(tagline);
@@ -86,19 +86,19 @@ class physicsroom : cherrymenu {
         
         ballspeed_slider.name = "slider";
         ballspeed_slider.type = "slider_ballspeed";
-        ballspeed_slider.position.x = Game.GetX(0.27);
+        ballspeed_slider.position.x = Game.GetX(value: 0.27);
         ballspeed_slider.position.y = ballspeed_text.frame.midY;
         addChild(ballspeed_slider);
         
         jump_slider.name = "slider";
         jump_slider.type = "slider_jump";
-        jump_slider.position.x = Game.GetX(0.27);
+        jump_slider.position.x = Game.GetX(value: 0.27);
         jump_slider.position.y = jump_text.frame.midY;
         addChild(jump_slider);
         
         gravity_slider.name = "slider";
         gravity_slider.type = "slider_gravity";
-        gravity_slider.position.x = Game.GetX(0.67);
+        gravity_slider.position.x = Game.GetX(value: 0.67);
         gravity_slider.position.y = gravity_text.frame.midY;
         addChild(gravity_slider);
         
@@ -106,11 +106,11 @@ class physicsroom : cherrymenu {
         tilt_slider.value = 0.25;
         tilt_slider.name = "slider";
         tilt_slider.type = "slider_tilt";
-        tilt_slider.position.x = Game.GetX(0.67);
+        tilt_slider.position.x = Game.GetX(value: 0.67);
         tilt_slider.position.y = tilt_text.frame.midY;
         addChild(tilt_slider);
         
-        walls_checkbox.position.x = Game.GetX(0.26);
+        walls_checkbox.position.x = Game.GetX(value: 0.26);
         walls_checkbox.position.y = walls_text.frame.midY;
         addChild(walls_checkbox);
         
@@ -121,31 +121,31 @@ class physicsroom : cherrymenu {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view);
+    override func didMove(to view: SKView) {
+        super.didMove(to: view);
         
         if(Physics.ballspeedX == 0){
             ballspeed_slider.reset();
         }else{
-            ballspeed_slider.moveSlider(Physics.ballspeedX);
+            ballspeed_slider.moveSlider(x: Physics.ballspeedX);
         }
         
         if(Physics.jumpX == 0){
             jump_slider.reset();
         }else{
-            jump_slider.moveSlider(Physics.jumpX);
+            jump_slider.moveSlider(x: Physics.jumpX);
         }
         
         if(Physics.gravityX == 0){
             gravity_slider.reset();
         }else{
-            gravity_slider.moveSlider(Physics.gravityX)
+            gravity_slider.moveSlider(x: Physics.gravityX)
         }
         
         if(Physics.tiltX == 0){
             tilt_slider.reset();
         }else{
-            tilt_slider.moveSlider(Physics.tiltX)
+            tilt_slider.moveSlider(x: Physics.tiltX)
         }
         
         if(Physics.walls){
@@ -177,11 +177,11 @@ class physicsroom : cherrymenu {
         back_btn.getColour();
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         var node:SKNode = SKNode();
         if let touch = touches.first {
-            let location = touch.locationInNode(self);
-            node = self.nodeAtPoint(location);
+            let location = touch.location(in: self);
+            node = self.atPoint(location);
             touchStartLoc = location; //Variable we need for swipeable background
 
             if(node.name == "cherry_checkbox"){
@@ -189,10 +189,10 @@ class physicsroom : cherrymenu {
                 temp_checkbox.checkBox();
                 Physics.walls = temp_checkbox.checked;
             }else if(node.name == "reset"){
-                ballspeed_slider.reset(0.5);
-                jump_slider.reset(0.5);
-                gravity_slider.reset(0.5);
-                tilt_slider.reset(0.25);
+                ballspeed_slider.reset(v: 0.5);
+                jump_slider.reset(v: 0.5);
+                gravity_slider.reset(v: 0.5);
+                tilt_slider.reset(v: 0.25);
                 walls_checkbox.reset();
                 Physics.walls = false;
                 
@@ -205,20 +205,20 @@ class physicsroom : cherrymenu {
             }else if(node.name == "back"){
                 Game.saveGame.savePhysicsData();
                 Game.skView.presentScene(Game.scenes_settings!,
-                                         transition: SKTransition.fadeWithColor(UIColor.blackColor(),
-                                            duration: NSTimeInterval(Game.SceneFade)));
+                                         transition: SKTransition.fade(with: UIColor.black,
+                                                                       duration: TimeInterval(Game.SceneFade)));
             }
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         var node:SKNode = SKNode();
         if let touch = touches.first {
-            let location = touch.locationInNode(self);
-            node = self.nodeAtPoint(location);
+            let location = touch.location(in: self);
+            node = self.atPoint(location);
             
             if(node.name == "slider"){
-                temp_slider = node as! CherrySlider;
+                temp_slider = node as? CherrySlider;
             }
             
             if(temp_slider != nil){
@@ -228,7 +228,7 @@ class physicsroom : cherrymenu {
                 
                 if(location.x > minX && location.x < maxX){
                     newx = location.x - minX;
-                    temp_slider.moveSlider(newx);
+                    temp_slider.moveSlider(x: newx);
                     
                     //Save slider values temporarily
                     if(temp_slider.type == "slider_ballspeed"){
@@ -252,13 +252,13 @@ class physicsroom : cherrymenu {
     
     func UpdateValues(){
         //Calculate Values everytime we move a slider
-        Physics.ballspeed = Physics.default_ballspeed * ballspeed_slider.getValue(1.0, fudge: 0.5);
-        Physics.jump = Physics.default_jump * jump_slider.getValue(1.0, fudge: 0.5);
-        Physics.gravity = Physics.default_gravity * gravity_slider.getValue(1.0, fudge: 0.5);
-        Physics.tilt = Physics.default_tilt * tilt_slider.getValue(4.0);
+        Physics.ballspeed = Physics.default_ballspeed * ballspeed_slider.getValue(Mult: 1.0, fudge: 0.5);
+        Physics.jump = Physics.default_jump * jump_slider.getValue(Mult: 1.0, fudge: 0.5);
+        Physics.gravity = Physics.default_gravity * gravity_slider.getValue(Mult: 1.0, fudge: 0.5);
+        Physics.tilt = Physics.default_tilt * tilt_slider.getValue(Mult: 4.0);
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //We don't want slideing backgrounds on physics room
         
         temp_slider = nil;

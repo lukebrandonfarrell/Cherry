@@ -50,7 +50,7 @@ class GameObject : SKSpriteNode {
     func MakeHitBox(name:String){
         let HitBox:SKShapeNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width * 15, height: self.size.height * 10));
         HitBox.position = CGPoint(x: -HitBox.frame.width/2, y: -HitBox.frame.height/2);
-        HitBox.fillColor = SKColor.blackColor();
+        HitBox.fillColor = SKColor.black;
         HitBox.lineWidth = 0.0;
         HitBox.zPosition = 0;
         HitBox.name = name;

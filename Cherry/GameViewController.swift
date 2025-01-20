@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 import GameKit;
 
-class GameViewController: UIViewController, EGCDelegate {
+class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,52 +34,43 @@ class GameViewController: UIViewController, EGCDelegate {
         
                 Game.scenes_physicsroom = physicsroom(size: view.bounds.size);
                 Game.scenes_shop = shop(size: view.bounds.size);
-                Game.scenes_shop?.scaleMode = .AspectFill;
+                Game.scenes_shop?.scaleMode = .aspectFill;
         
             Game.scenes_gamescene = gamescene(size: view.bounds.size);
             Game.scenes_gameover = gameover(size: view.bounds.size);
 
             /* Set the scale mode to scale to fit the window */
-            Game.scenes_mainmenu!.scaleMode = .AspectFill
-            Game.scenes_gamescene!.scaleMode = .AspectFill
-            Game.scenes_gameover!.scaleMode = .AspectFill
-            Game.scenes_settings!.scaleMode = .AspectFill
-            Game.scenes_about!.scaleMode = .AspectFill
+            Game.scenes_mainmenu!.scaleMode = .aspectFill
+            Game.scenes_gamescene!.scaleMode = .aspectFill
+            Game.scenes_gameover!.scaleMode = .aspectFill
+            Game.scenes_settings!.scaleMode = .aspectFill
+            Game.scenes_about!.scaleMode = .aspectFill
         
             if(!Game.controlsOFF){
                 Game.skView.presentScene(Game.scenes_controls);
             }else{
                 Game.skView.presentScene(Game.scenes_mainmenu);
             }
-        
-        //Game center
-            EGC.sharedInstance(self)
-            //EGC.debugMode = true;
-            EGC.showLoginPage = true;
-        
-        //EGC.showGameCenterAuthentication();
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        EGC.delegate = self;
     }
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate: Bool {
         return true
     }
     
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        Game.hasRotated = true;
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        Game.hasRotated = true
     }
     
-    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-        return UIInterfaceOrientation.LandscapeLeft
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+        return .landscapeLeft
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Landscape;
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .landscape
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,7 +78,7 @@ class GameViewController: UIViewController, EGCDelegate {
         // Release any cached data, images, etc that aren't in use.
     }
 
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden: Bool {
         return true
     }
 }

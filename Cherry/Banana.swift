@@ -10,6 +10,15 @@ import Foundation
 import SpriteKit
 
 class Banana : Pickup {
+    override init(texture: SKTexture?, color: UIColor, size: CGSize) {
+        super.init(texture: texture, color: color, size: size)
+        self.name = "banana"
+    }
+    
+    @MainActor required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func pickup(){
         var jumps : Int = 2;
         if(Game.sweetfruit_active){ Game.banana_stackSweetFruit = true; }
@@ -19,10 +28,10 @@ class Banana : Pickup {
         }
         
         Game.player.multipleJump = jumps;
-        Game.powerup_bar.activatePowerup("banana");
+        Game.powerup_bar.activatePowerup(powerup: "banana");
         Stats.bananasCollected += 1;
         
-        Game.soundManager.playSound("banana");
+        Game.soundManager.playSound(str: "banana");
         
         super.pickup();
     }

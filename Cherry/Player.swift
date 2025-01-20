@@ -49,22 +49,22 @@ class Player : ShapeObject {
     override init() {
         super.init()
         
-        self.fillColor = UIColor.whiteColor();
-        self.physicsBody = SKPhysicsBody(circleOfRadius: Game.GetX(0.01));
+        self.fillColor = UIColor.white;
+        self.physicsBody = SKPhysicsBody(circleOfRadius: Game.GetX(value: 0.01));
         self.physicsBody?.categoryBitMask = PhysicsCategory.player;
-        self.physicsBody?.collisionBitMask = PhysicsCategory.platform | PhysicsCategory.bullet | PhysicsCategory.walls;
+        self.physicsBody?.collisionBitMask = PhysicsCategory.platform | PhysicsCategory.bullet | PhysicsCategory.walls | PhysicsCategory.pickup;
         self.physicsBody?.contactTestBitMask = PhysicsCategory.All;
         self.physicsBody?.fieldBitMask = PhysicsCategory.None;
         self.physicsBody?.linearDamping = 0.8;
         self.physicsBody?.restitution = 0;
         self.physicsBody?.friction = 0.0;
         self.physicsBody?.mass = 1;
-        powerupField.region = SKRegion(radius: Float(Game.GetX(1.0)));
+        powerupField.region = SKRegion(radius: Float(Game.GetX(value: 1.0)));
         powerupField.categoryBitMask = PhysicsCategory.None;
         powerupField.strength = 4;
         powerupField.falloff = 2;
         powerupField.minimumRadius = 0;
-        powerupField.enabled = true;
+        powerupField.isEnabled = true;
         self.addChild(powerupField);
     }
 
@@ -76,8 +76,8 @@ class Player : ShapeObject {
         self.physicsBody?.mass = newmass;
         propossedMass = newmass;
 
-        jumpforce = (Physics.jump * Game.GetY(0.1));
-        moveforce = (Physics.ballspeed * Game.GetX(0.04));
+        jumpforce = (Physics.jump * Game.GetY(value: 0.1));
+        moveforce = (Physics.ballspeed * Game.GetX(value: 0.04));
         
         if(propossedMass >= 2.0){
             jumpforce = jumpforce * propossedMass;
@@ -125,7 +125,7 @@ class Player : ShapeObject {
     
     var accel:Double = 0.01;
     override func update() {
-        if(self.physicsBody?.velocity.dy < -5 && !isJumping){
+        if((self.physicsBody?.velocity.dy)! < -5 && !isJumping){
             isFalling = true;
             justContact = true;
             callonce = false;
@@ -178,7 +178,7 @@ class Player : ShapeObject {
             canDoubleJump = true;
             JumpCount = 0;
             JumpCount += 1;
-            Game.soundManager.playSound("jump");
+            Game.soundManager.playSound(str: "jump");
         }else if(multipleJump > JumpCount){
             var extraBoost:CGFloat = 0;
             let v:CGFloat = (self.physicsBody?.velocity.dy)!;
@@ -194,18 +194,21 @@ class Player : ShapeObject {
             if(multipleJump == JumpCount){
                 canDoubleJump = false;
             }
-            Game.soundManager.playSound("multiplejump");
+            Game.soundManager.playSound(str: "multiplejump");
         }
     }
     
     func teleport(p:CGPoint){
-        Game.soundManager.playSound("teleport");
+        Game.soundManager.playSound(str: "teleport");
         
         self.position.x = p.x;
         self.position.y = p.y;
         
-        let teleport_effect:NSString = Game.GameInvertedColour ? NSBundle.mainBundle().pathForResource("teleport_inverted", ofType: "sks")! : NSBundle.mainBundle().pathForResource("teleport", ofType: "sks")!
-        teleport_emmiter = NSKeyedUnarchiver.unarchiveObjectWithFile(teleport_effect as String) as! SKEmitterNode;
+        let effectName = Game.GameInvertedColour ? "teleport_inverted" : "teleport"
+        if let path = Bundle.main.path(forResource: effectName, ofType: "sks"),
+           let emitter = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? SKEmitterNode {
+            teleport_emmiter = emitter
+        }
         
         teleport_emmiter.position = CGPointMake(self.position.x, self.position.y)
         if(Game.scenes_gamescene != nil){
@@ -220,7 +223,7 @@ class Player : ShapeObject {
     }
     
     func getColour(){
-        self.fillColor = Game.GameInvertedColour ? SKColor.blackColor() : SKColor.whiteColor();
-        self.strokeColor = Game.GameInvertedColour ? SKColor.blackColor() : SKColor.whiteColor();
+        self.fillColor = Game.GameInvertedColour ? SKColor.black : SKColor.white;
+        self.strokeColor = Game.GameInvertedColour ? SKColor.black : SKColor.white;
     }
 }

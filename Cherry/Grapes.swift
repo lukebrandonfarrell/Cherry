@@ -10,6 +10,15 @@ import Foundation
 import SpriteKit
 
 class Grapes : Pickup {
+    override init(texture: SKTexture?, color: UIColor, size: CGSize) {
+        super.init(texture: texture, color: color, size: size)
+        self.name = "grapes"
+    }
+    
+    @MainActor required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func pickup(){
         var slowmo : CGFloat = 0.75;
         if(Game.sweetfruit_active){ Game.grape_stackSweetFruit = true; }
@@ -20,10 +29,10 @@ class Grapes : Pickup {
         
         Game.gamescene_speed = slowmo;
         Game.scenes_gamescene?.physicsWorld.speed = slowmo;
-        Game.powerup_bar.activatePowerup("grapes");
+        Game.powerup_bar.activatePowerup(powerup: "grapes");
         Stats.grapesCollected += 1;
         
-        Game.soundManager.playSound("grape");
+        Game.soundManager.playSound(str: "grape");
         
         super.pickup();
     }

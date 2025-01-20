@@ -52,13 +52,13 @@ struct Game {
     
     static func GetX(value:CGFloat) -> CGFloat {
         var value = value;
-        value = Game.correctValue(value);
+        value = Game.correctValue(v: value);
         return sceneWidth * value;
     }
 
     static func GetY(value:CGFloat) -> CGFloat {
         var value = value;
-        value = Game.correctValue(value);
+        value = Game.correctValue(v: value);
         return sceneHeight * value;
     }
 
@@ -79,7 +79,7 @@ struct Game {
     static var levelmanager:LevelManager = LevelManager()
     static var currentPopup:GameObject?;
     
-    static let modelName = UIDevice.currentDevice().modelName
+    static let modelName = UIDevice.current.modelName
     
     static var gamescene_speed:CGFloat = 1.0;
 
@@ -199,7 +199,7 @@ struct Calc {
         num = fabs(num);
         
         if (num < 1000.0){
-            return "\(sign)\(Int(num))";
+            return "\(sign)\(Int(num))" as NSString;
         }
         
         let exp:Int = Int(log10(num) / 3.0 ); //log10(1000));
@@ -208,7 +208,7 @@ struct Calc {
         
         let roundedNum:Double = round(10 * num / pow(1000.0,Double(exp))) / 10;
         
-        return "\(sign)\(roundedNum)\(units[exp-1])";
+        return "\(sign)\(roundedNum)\(units[exp-1])" as NSString;
     }
     
     static func formatTime(number:Int) -> String{

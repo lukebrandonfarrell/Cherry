@@ -18,8 +18,8 @@ class controlsOption : GameObject {
     }
     
     func setupText(title_string:String, info_string:String){
-        title_txt.setup(title_string, name: "title", x: 0, y: self.size.height/2.4, size: 80, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
-        tagline_txt.setup(info_string, name: "info", x: 0, y: -self.size.height/2.2, size: 38, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
+        title_txt.setup(text: title_string, name: "title", x: 0, y: self.size.height/2.4, size: 80, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
+        tagline_txt.setup(text: info_string, name: "info", x: 0, y: -self.size.height/2.2, size: 38, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
         
         self.addChild(title_txt);
         self.addChild(tagline_txt);

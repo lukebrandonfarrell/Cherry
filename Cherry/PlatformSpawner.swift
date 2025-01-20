@@ -12,9 +12,9 @@ import SpriteKit
 class PlatformSpawner: GameObject {
     
     //PLATFORM AND ROW
-        var platformSize : CGSize = CGSize(width: Game.GetX(0.1), height: Game.GetY(0.025));
+        var platformSize : CGSize = CGSize(width: Game.GetX(value: 0.1), height: Game.GetY(value: 0.025));
         var platforms_array:[Platform] = []; //Array of platforms, should this be a pool? Yes :)
-        var platformtimer:NSTimer!; //Check if we need to spawn platforms yet?
+        var platformtimer:Timer!; //Check if we need to spawn platforms yet?
         var platformTarget:Platform!; //We use this to spwan platforms at equal distance even if time is distorted
         
         var currentPlatformRow:Int = 0; //Count how many rows of platforms the player has passed
@@ -54,20 +54,20 @@ class PlatformSpawner: GameObject {
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size);
         
-        xColums.append(Game.GetX(0.05));
-        xColums.append(Game.GetX(0.2));
-        xColums.append(Game.GetX(0.4));
-        xColums.append(Game.GetX(0.6));
-        xColums.append(Game.GetX(0.8));
-        xColums.append(Game.GetX(9.5));
+        xColums.append(Game.GetX(value: 0.05));
+        xColums.append(Game.GetX(value: 0.2));
+        xColums.append(Game.GetX(value: 0.4));
+        xColums.append(Game.GetX(value: 0.6));
+        xColums.append(Game.GetX(value: 0.8));
+        xColums.append(Game.GetX(value: 9.5));
         
-        xColums_two.append(Game.GetX(0.1));
-        xColums_two.append(Game.GetX(0.3));
-        xColums_two.append(Game.GetX(0.5));
-        xColums_two.append(Game.GetX(0.7));
-        xColums_two.append(Game.GetX(0.9));
+        xColums_two.append(Game.GetX(value: 0.1));
+        xColums_two.append(Game.GetX(value: 0.3));
+        xColums_two.append(Game.GetX(value: 0.5));
+        xColums_two.append(Game.GetX(value: 0.7));
+        xColums_two.append(Game.GetX(value: 0.9));
         
-        yColums.append(-Game.GetY(0.1));
+        yColums.append(-Game.GetY(value: 0.1));
     }
     
     required init?(coder aDecoder: NSCoder) { 
@@ -76,7 +76,7 @@ class PlatformSpawner: GameObject {
     
     override func inView() {
         //Rest platform attributes
-        platformSpeed = Game.GetY(0.0028);
+        platformSpeed = Game.GetY(value: 0.0028);
         platformsMin = 4;
         platformsMax = 5;
         
@@ -85,27 +85,27 @@ class PlatformSpawner: GameObject {
         allPlatformRow = 0;
         
         //Reset
-        for(var i = 0; i < platforms_array.count; i++){
-            platforms_array[i].removeFromParent();
+        for platform in platforms_array {
+            platform.removeFromParent()
         }
-        platforms_array = [];
+        platforms_array = []
         
-        for(var i = 0; i < pickup_array.count; i++){
-            pickup_array[i].removeFromParent();
+        for pickup in pickup_array {
+            pickup.removeFromParent()
         }
-        pickup_array = [];
+        pickup_array = []
         
-        for(var i = 0; i < scoreline_array.count; i++){
-            scoreline_array[i].removeFromParent();
+        for scoreline in scoreline_array {
+            scoreline.removeFromParent()
         }
-        scoreline_array = [];
+        scoreline_array = []
         
         //Spot duplicate highscores so we only create one scoreline
-        temphighscore = Game.highscore;
-        for(var i=0; i < temphighscore.count; i++){
-            for(var n=0; n < temphighscore.count - 1; n++){
-                if(temphighscore[i] == temphighscore[n] && i != n){
-                    temphighscore.removeAtIndex(n);
+        temphighscore = Game.highscore
+        for i in 0..<temphighscore.count {
+            for n in 0..<(temphighscore.count - 1) {
+                if temphighscore[i] == temphighscore[n] && i != n {
+                    temphighscore.remove(at: n)
                 }
             }
         }
@@ -118,57 +118,57 @@ class PlatformSpawner: GameObject {
     }
     
     override func update() {
-        for(var p = 0; p < platforms_array.count; p++){
-            platforms_array[p].update();
+        for (index, platform) in platforms_array.enumerated().reversed() {
+            platform.update()
             
-            if(platforms_array[p].position.y > Game.sceneHeight){
-                platforms_array[p].stop();
-                platforms_array[p].removeFromParent();
-                platforms_array.removeAtIndex(p);
+            if platform.position.y > Game.sceneHeight {
+                platform.stop()
+                platform.removeFromParent()
+                platforms_array.remove(at: index)
             }
         }
 
-        for(var c = 0; c < pickup_array.count; c++){
-            pickup_array[c].update();
+        for pickup in pickup_array {
+            pickup.update()
         }
 
-        for(var s = 0; s < scoreline_array.count; s++){
-            scoreline_array[s].update();
+        for scoreline in scoreline_array {
+            scoreline.update()
         }
     }
     
     func stopTimer(){
         platformtimer.invalidate();
         
-        for(var p:Int = 0; p<platforms_array.count; p++){
-            platforms_array[p].stop();
+        for platform in platforms_array {
+            platform.stop();
         }
     }
     
     func MakeTimer(){
-        platformtimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(PlatformSpawner.timeSpawnGap), userInfo: nil, repeats: true);
+        platformtimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(PlatformSpawner.timeSpawnGap), userInfo: nil, repeats: true);
         
-        for(var p:Int = 0; p<platforms_array.count; p++){
-            platforms_array[p].start();
+        for platform in platforms_array {
+            platform.start();
         }
     }
     
     func spawnFirstPlatform(){
-        Spawn(Game.XAlign_center, y: Game.GetY(0.3));
+        Spawn(x: Game.XAlign_center, y: Game.GetY(value: 0.3));
         allPlatformRow += 1;
-        SpawnPlatforms(Game.GetY(0.2));
+        SpawnPlatforms(addY: Game.GetY(value: 0.2));
     }
     
-    func timeSpawnGap(){
+    @objc func timeSpawnGap(){
         if(!Game.gamepaused){
-            if(platformTarget.position.y > Game.GetY(0.18)){
-                SpawnPlatforms(0);
+            if(platformTarget.position.y > Game.GetY(value: 0.18)){
+                SpawnPlatforms(addY: 0);
             }
         }
     }
 
     func SpawnPlatforms(addY:CGFloat){
-        let ammount:Int = randRange(platformsMin, upper: platformsMax);
+        let ammount:Int = randRange(lower: platformsMin, upper: platformsMax);
         
         let pick_random_array:Bool = randomBool();
         var xColumsTemp:[CGFloat] = pick_random_array ? xColums : xColums_two;
@@ -182,14 +182,14 @@ class PlatformSpawner: GameObject {
         }
         
         let assignedPlatformRow = allPlatformRow;
-        for(var a=0; a < ammount; a++){
+        for _ in 0..<ammount {
             //X
-            let xColumsRandomSelect:Int = randRange(0, upper: xColumsTemp.count - 1);
-            let xPos:CGFloat = xColumsTemp[xColumsRandomSelect] + Calc.randomBetweenNumbers(-Game.GetX(0.004), secondNum: Game.GetX(0.004));
-            xColumsTemp.removeAtIndex(xColumsRandomSelect);
+            let xColumsRandomSelect:Int = randRange(lower: 0, upper: xColumsTemp.count - 1);
+            let xPos:CGFloat = xColumsTemp[xColumsRandomSelect] + Calc.randomBetweenNumbers(firstNum: -Game.GetX(value: 0.004), secondNum: Game.GetX(value: 0.004));
+            xColumsTemp.remove(at: xColumsRandomSelect);
             
             //Y
-            let yColumsRandomSelect:Int = randRange(0, upper: yColums.count - 1);
+            let yColumsRandomSelect:Int = randRange(lower: 0, upper: yColums.count - 1);
             let yPos:CGFloat = yColums[yColumsRandomSelect];
 
             /* Chance to spawn pickup */
@@ -205,25 +205,25 @@ class PlatformSpawner: GameObject {
                 let uniqueplatformchance:Double = drand48();
             /* */
             
-            Spawn(xPos, y: yPos + addY, conspickup: spawnpickup, uniquePlatform: uniqueplatformchance, row: assignedPlatformRow);
+            Spawn(x: xPos, y: yPos + addY, conspickup: spawnpickup, uniquePlatform: uniqueplatformchance, row: assignedPlatformRow);
             lineyPos = yPos;
         }
         
         let predicted_score:Int = Game.score + ((allPlatformRow - currentPlatformRow) * Game.score_multi);
         
          //High score bar
-         for(var h=0; h<temphighscore.count; h += 1){
-             if(predicted_score >= temphighscore[h] && temphighscore[h] > 12){
-                if(temphighscore[h] != lastscore){
-                    SpawnScoreLine(lineyPos, linetext:  "Highscore [" + String(h + 1) + "]");
+         for h in (0..<temphighscore.count).reversed() {
+             if predicted_score >= temphighscore[h] && temphighscore[h] > 12 {
+                if temphighscore[h] != lastscore {
+                    SpawnScoreLine(y: lineyPos, linetext: "Highscore [\(h + 1)]");
                 }
                 
-                temphighscore.removeAtIndex(h)
+                temphighscore.remove(at: h)
              }
          }
         
         if(predicted_score >= lastscore && lastscore > 12){
-            SpawnScoreLine(lineyPos, linetext:  "Last score : " + String(lastscore));
+            SpawnScoreLine(y: lineyPos, linetext:  "Last score : " + String(lastscore));
             lastscore = 0;
         }
         
@@ -235,22 +235,22 @@ class PlatformSpawner: GameObject {
         var pickup:Bool = conspickup;
         
         if((uniquePlatform < 0.25 && uniquePlatform > 0.15) && Game.levelmanager.level >= 1){
-            platform = platform_bouncy(color: UIColor.whiteColor(), size: platformSize);
+            platform = platform_bouncy(color: UIColor.white, size: platformSize);
             pickup = false;
         }else if((uniquePlatform < 0.15 && uniquePlatform > 0.07) && Game.levelmanager.level >= 2){
-            platform = platform_crumble(color: UIColor.whiteColor(), size: platformSize);
+            platform = platform_crumble(color: UIColor.white, size: platformSize);
         }else if((uniquePlatform < 0.07 && uniquePlatform > 0 ) && Game.levelmanager.level >= 4 && (allPlatformRow % 2) == 0 && !gunexists){
             gunexists = true;
             platform = gun();
             pickup = false;
         }else{
-            platform = Platform(color: UIColor.whiteColor(), size: platformSize);
+            platform = Platform(color: UIColor.white, size: platformSize);
         }
         
         platform.row = allPlatformRow;
         
-        if(Game.GameInvertedColour){platform.color = UIColor.blackColor()}
-        platform.setup(x, y: y, size: 1.0, zPos: 1)
+        if(Game.GameInvertedColour){platform.color = UIColor.black}
+        platform.setup(x: x, y: y, size: 1.0, zPos: 1)
         
         if(platform.frame.minX  < 0){
             platform.position.x = platform.size.width/2;
@@ -270,10 +270,10 @@ class PlatformSpawner: GameObject {
             let grapes:Grapes = Game.GameInvertedColour ? Grapes(imageNamed: "grapes_Invert") : Grapes(imageNamed: "grapes");
             let pineapple:Pineapple = Game.GameInvertedColour ? Pineapple(imageNamed: "pineapple_Invert") : Pineapple(imageNamed: "pineapple");
             
-            cherry.setup(0, y: 0, size: Game.GetX(0.001), zPos: 1);
-            banana.setup(0, y: 0, size: Game.GetX(0.001), zPos: 1);
-            grapes.setup(0, y: 0, size: Game.GetX(0.001), zPos: 1);
-            pineapple.setup(0, y: 0, size: Game.GetX(0.001), zPos: 1);
+            cherry.setup(x: 0, y: 0, size: Game.GetX(value: 0.001), zPos: 1);
+            banana.setup(x: 0, y: 0, size: Game.GetX(value: 0.001), zPos: 1);
+            grapes.setup(x: 0, y: 0, size: Game.GetX(value: 0.001), zPos: 1);
+            pineapple.setup(x: 0, y: 0, size: Game.GetX(value: 0.001), zPos: 1);
             
             cherry.position.x = platform.frame.midX;
             banana.position.x = platform.frame.midX;
@@ -290,7 +290,7 @@ class PlatformSpawner: GameObject {
             if(Game.levelmanager.level >= 3){pickupchoice.append(pineapple);}
             if(Game.levelmanager.level >= 5){pickupchoice.append(grapes);}
             
-            let randomchoice:Int = randRange(0, upper: pickupchoice.count - 1);
+            let randomchoice:Int = randRange(lower: 0, upper: pickupchoice.count - 1);
             
             let pickupobject:Pickup = pickupchoice[randomchoice];
             pickupobject.position.y = pickupobject.position.y + pickupobject.size.height / 1.8;
@@ -304,8 +304,8 @@ class PlatformSpawner: GameObject {
     
     func SpawnScoreLine(y : CGFloat, linetext:String){
         let scoreline:ScoreLine = ScoreLine();
-        scoreline.addText(linetext);
-        scoreline.position.y = y - Game.GetY(0.15);
+        scoreline.addText(text: linetext);
+        scoreline.position.y = y - Game.GetY(value: 0.15);
         selectedscene.addChild(scoreline);
         scoreline_array.append(scoreline);
     }

@@ -18,8 +18,8 @@ class Platform : GameObject {
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
         
-        self.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: self.size.width, height: self.size.height));
-        self.physicsBody?.dynamic = false;
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width, height: self.size.height));
+        self.physicsBody?.isDynamic = false;
         self.physicsBody?.categoryBitMask = PhysicsCategory.platform;
         self.physicsBody?.contactTestBitMask = PhysicsCategory.player;
         self.physicsBody?.restitution = 0;

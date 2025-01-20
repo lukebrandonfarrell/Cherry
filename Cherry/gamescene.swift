@@ -13,7 +13,7 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
     
     var gameover:Bool = false;
     var resetSceneFlag:Bool = false;
-    var gameovertimer:NSTimer!;
+    var gameovertimer:Timer!;
     
     var score_box:GameObject = GameObject(texture: Game.textures.scorebox());
     var score_label:TextObject = TextObject(fontNamed: "AvenirNext-Bold");
@@ -21,8 +21,8 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
     var pause_btn:GameObject = GameObject(texture: Game.textures.pausebtn());
     var pause_popup:Pause = Pause();
     
-    var falltimer:NSTimer!; //Accumulate score when faliing at start of game
-    var timeplayedtimer:NSTimer!;
+    var falltimer:Timer!; //Accumulate score when faliing at start of game
+    var timeplayedtimer:Timer!;
     
     //Tutorial
     var tiltTutorial:TiltTutorial = TiltTutorial();
@@ -40,52 +40,52 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
         super.init(size: size);
         loadHint(); //If scene uses hints, load this
         
-        Game.platform_spawner.detectScene(self);
-        Game.levelmanager.detectScene(self);
+        Game.platform_spawner.detectScene(scene: self);
+        Game.levelmanager.detectScene(scene: self);
         
         physicsWorld.contactDelegate = self
         
-        Game.player = Player(circleOfRadius: Game.GetX(0.01));
+        Game.player = Player(circleOfRadius: Game.GetX(value: 0.01));
         
-        score_box.setup(Game.GetX(0.84), y: Game.GetY(0.92), size: Game.GetX(0.0005), zPos: 1); addChild(score_box);
+        score_box.setup(x: Game.GetX(value: 0.84), y: Game.GetY(value: 0.92), size: Game.GetX(value: 0.0005), zPos: 1); addChild(score_box);
         
-        score_label.setup(String(Game.score), name: "score", x: score_box.frame.midX, y: Game.GetY(0.90), size: 50, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 2);
+        score_label.setup(text: String(Game.score), name: "score", x: score_box.frame.midX, y: Game.GetY(value: 0.90), size: 50, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 2);
         addChild(score_label);
         
-        pause_btn.setup(Game.GetX(0.94), y: Game.GetY(0.92), size: Game.GetX(0.0005), zPos: 1); addChild(pause_btn);
+        pause_btn.setup(x: Game.GetX(value: 0.94), y: Game.GetY(value: 0.92), size: Game.GetX(value: 0.0005), zPos: 1); addChild(pause_btn);
         pause_btn.name = "pause";
-        pause_btn.MakeHitBox("pause");
+        pause_btn.MakeHitBox(name: "pause");
         
-        Game.powerup_bar.setup(Game.GetX(0.05), y: Game.GetY(0.92), size: Game.GetX(0.0008), zPos: 1); addChild(Game.powerup_bar);
-        Game.ability_bar.setup(Game.GetX(0.05), y: Game.GetY(0.08), size: Game.GetX(0.0012), zPos: 1); addChild(Game.ability_bar);
+        Game.powerup_bar.setup(x: Game.GetX(value: 0.05), y: Game.GetY(value: 0.92), size: Game.GetX(value: 0.0008), zPos: 1); addChild(Game.powerup_bar);
+        Game.ability_bar.setup(x: Game.GetX(value: 0.05), y: Game.GetY(value: 0.08), size: Game.GetX(value: 0.0012), zPos: 1); addChild(Game.ability_bar);
         
         //Object to detect top collision
-        Game.top = GameObject(texture: nil, color: SKColor.whiteColor(), size: CGSize(width: Game.GetX(1.0), height: Game.GetY(0.1)))
-        Game.top.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: Game.top.size.width, height: Game.top.size.height));
+        Game.top = GameObject(texture: nil, color: SKColor.white, size: CGSize(width: Game.GetX(value: 1.0), height: Game.GetY(value: 0.1)))
+        Game.top.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: Game.top.size.width, height: Game.top.size.height));
         Game.top.physicsBody?.categoryBitMask = PhysicsCategory.None;
         Game.top.physicsBody?.contactTestBitMask = PhysicsCategory.player;
-        Game.top.physicsBody?.dynamic = false;
+        Game.top.physicsBody?.isDynamic = false;
         
-        Game.top.position.y = Game.GetY(1.0) + Game.top.size.height/2;
-        Game.top.position.x = Game.GetX(0.5);
+        Game.top.position.y = Game.GetY(value: 1.0) + Game.top.size.height/2;
+        Game.top.position.x = Game.GetX(value: 0.5);
         
         addChild(Game.top);
         
         //Touch shadows
         left_shadow = ShapeObject(rect: CGRect(x: 0, y: 0, width: Game.sceneWidth / 4, height: Game.sceneHeight));
-        left_shadow.fillColor = SKColor.blackColor();
+        left_shadow.fillColor = SKColor.black;
         left_shadow.alpha = 0;
         left_shadow.lineWidth = 0.0;
         addChild(left_shadow);
         
         right_shadow = ShapeObject(rect: CGRect(x: Game.sceneWidth - (Game.sceneWidth / 4), y: 0, width: Game.sceneWidth / 4, height: Game.sceneHeight));
-        right_shadow.fillColor = SKColor.blackColor();
+        right_shadow.fillColor = SKColor.black;
         right_shadow.alpha = 0;
         right_shadow.lineWidth = 0.0;
         addChild(right_shadow);
         
         mid_shadow = ShapeObject(rect: CGRect(x: Game.sceneWidth / 4, y: 0, width: Game.sceneWidth / 2, height: Game.sceneHeight));
-        mid_shadow.fillColor = SKColor.blackColor();
+        mid_shadow.fillColor = SKColor.black;
         mid_shadow.alpha = 0;
         mid_shadow.lineWidth = 0.0;
         addChild(mid_shadow);
@@ -95,13 +95,13 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func didMoveToView(view: SKView) { resetScene(); };func resetScene(){
+    override func didMove(to view: SKView) { resetScene(); };func resetScene(){
         if(!resetSceneFlag){
             resetSceneFlag = true;
 
             physicsWorld.gravity = CGVectorMake(0, Physics.gravity * Game.scale_value);
             self.physicsBody = Physics.walls ?
-                SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0, y: -50, width: Game.sceneWidth, height: Game.sceneHeight * 2)) : nil;
+            SKPhysicsBody(edgeLoopFrom: CGRect(x: 0, y: -50, width: Game.sceneWidth, height: Game.sceneHeight * 2)) : nil;
             self.physicsBody?.restitution = 1.0;
             
             backgroundColor = UIColor(netHex: 0xC91240);
@@ -125,14 +125,14 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
             physicsWorld.speed = 1.0;
             self.speed = 1.0;
             
-            Game.player.setup(Game.XAlign_center, y: Game.sceneHeight, size: 1.0, zPos: 1)
+            Game.player.setup(x: Game.XAlign_center, y: Game.sceneHeight, size: 1.0, zPos: 1)
             addChild(Game.player);
             Game.playerDead = false;
             Game.player.inView();
             //Game.avalible_ablities["theripening"] = 999;
             
-            falltimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(gamescene.fallScore), userInfo: nil, repeats: true);
-            timeplayedtimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(gamescene.addTimePlayed), userInfo: nil, repeats: true);
+            falltimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(gamescene.fallScore), userInfo: nil, repeats: true);
+            timeplayedtimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(gamescene.addTimePlayed), userInfo: nil, repeats: true);
             
             gameover = false
             pause_popup.inView();
@@ -146,7 +146,7 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
             mid_shadow.alpha = 0;
         }
     }
-    func addTimePlayed(){ Stats.timePlayed += 1; }
+    @objc func addTimePlayed(){ Stats.timePlayed += 1; }
     
     func didMoveOutOfView(){
         Game.levelmanager.outView();
@@ -154,13 +154,12 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
         var scoreSet:Bool = false;
         var tempScore:Int = Game.score;
         
-        //Check if highscore is higher than one of the current highscores
-        for(var n=0; n<Game.highscore.count; n += 1){
-            if(!scoreSet){
-                if(tempScore > Game.highscore[n]){
-                    let moveScoreDown:Int = Game.highscore[n]; //We set the score again so all the current scores also get pushed down one place
-                    Game.highscore[n] = tempScore;
-                    tempScore = moveScoreDown;
+        if !scoreSet {
+            for (index, score) in Game.highscore.enumerated() {
+                if tempScore > score {
+                    let moveScoreDown = Game.highscore[index]
+                    Game.highscore[index] = tempScore
+                    tempScore = moveScoreDown
                 }
             }
         }
@@ -168,12 +167,6 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
         
         //Store last score for marker feature
         Game.platform_spawner.lastscore = Game.score;
-        
-        //Add score to global leaderbard
-        if EGC.isPlayerIdentified {
-            EGC.reportScoreLeaderboard(leaderboardIdentifier: "cherry.highscores", score: Game.score);
-        }
-        
         //Save game / progress after gameover
         Game.saveGame.saveEndGameData();
         
@@ -183,9 +176,9 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
         self.removeAllActions();
     }
 
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         if(Game.autopause == 1 && !Game.gamepaused){
-            PauseGame(pause_popup);
+            PauseGame(popup: pause_popup);
             Game.autopause = 2;
         }
         
@@ -199,18 +192,18 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
             
             if(!gameover){
                 //Kill player if falls of screen or touches top
-                if(Game.player.FirstContact && (Game.player.position.y < 0 || Game.player.position.y > Game.sceneHeight)){
+                if(Game.player.position.y < 0 || Game.player.position.y > Game.sceneHeight){
                     gameover = true;
                     Game.playerDead = true;
                     resetSceneFlag = false;
-                    CircleExplode(self, x: Game.player.position.x, y: Game.player.position.y);
+                    CircleExplode(target: self, x: Game.player.position.x, y: Game.player.position.y);
                     Game.player.Die();
                     
                     if(Game.theripening_active){ //Player has instant respawn ability
                         respawnPlayer();
-                        addHint("Touch anywhere on the screen to respawn at location");
+                        addHint(text: "Touch anywhere on the screen to respawn at location");
                     }else{
-                        gameovertimer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(gamescene.GameOver), userInfo: nil, repeats: false);
+                        gameovertimer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(gamescene.GameOver), userInfo: nil, repeats: false);
                     }
                 }
                 
@@ -234,28 +227,30 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
                 score_box.texture = Game.textures.scorebox();
                 pause_btn.texture = Game.textures.pausebtn();
             }
-            hint.fontColor = Game.GameInvertedColour ? SKColor.blackColor() : SKColor.whiteColor();
-            score_label.fontColor = Game.GameInvertedColour ? SKColor.blackColor() : SKColor.whiteColor();
+            hint.fontColor = Game.GameInvertedColour ? SKColor.black : SKColor.white;
+            score_label.fontColor = Game.GameInvertedColour ? SKColor.black : SKColor.white;
         }
     }
     
-    func CircleExplode(target:SKNode, x:CGFloat, y:CGFloat){
-        let circledie_effect:NSString = Game.GameInvertedColour ? NSBundle.mainBundle().pathForResource("circle_explode_Inverted", ofType: "sks")! : NSBundle.mainBundle().pathForResource("circle_explode", ofType: "sks")!
-        let circledie_emmiter = NSKeyedUnarchiver.unarchiveObjectWithFile(circledie_effect as String) as! SKEmitterNode
-        
-        circledie_emmiter.position = CGPointMake(x, y)
-        circledie_emmiter.zPosition = 1
-        circledie_emmiter.targetNode = target
-        
-        self.addChild(circledie_emmiter)
-        Game.soundManager.playSound("die");
-        Stats.numberOfDeaths += 1;
+    func CircleExplode(target: SKNode, x: CGFloat, y: CGFloat) {
+        let effectName = Game.GameInvertedColour ? "circle_explode_Inverted" : "circle_explode"
+        if let path = Bundle.main.path(forResource: effectName, ofType: "sks"),
+           let emitter = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? SKEmitterNode {
+            
+            emitter.position = CGPoint(x: x, y: y)
+            emitter.zPosition = 1
+            emitter.targetNode = target
+            
+            self.addChild(emitter)
+            Game.soundManager.playSound(str: "die")
+            Stats.numberOfDeaths += 1
+        }
     }
     
-    func GameOver(){
+    @objc func GameOver(){
         didMoveOutOfView();
         if(!Game.autoplayON){
-            Game.skView.presentScene(Game.scenes_gameover!, transition: SKTransition.fadeWithColor(UIColor.blackColor(), duration: NSTimeInterval(1.0)));
+            Game.skView.presentScene(Game.scenes_gameover!, transition: SKTransition.fade(with: UIColor.black, duration: TimeInterval(1.0)));
         }else{
             resetScene();
         }
@@ -266,7 +261,7 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
         waitingForRespawn = true;
     }
     
-    func fallScore(){
+    @objc func fallScore(){
         //Add Score
         if(!Game.player.FirstContact && !Game.gamepaused){
             Game.score += 1;
@@ -275,13 +270,13 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
         }
     }
     
-    var fruitbowltimer:NSTimer?;
+    var fruitbowltimer:Timer?;
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         var node:SKNode = SKNode();
         if let touch = touches.first {
-            let location = touch.locationInNode(self);
-            node = self.nodeAtPoint(location);
+            let location = touch.location(in: self);
+            node = self.atPoint(location);
             
             if(!Game.playerDead && node.name != nil)
             {
@@ -325,7 +320,7 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
                     }
                     if(fruitbowltimer == nil){
                         Game.player.powerupField.categoryBitMask = PhysicsCategory.magnetic_player;
-                        fruitbowltimer = NSTimer.scheduledTimerWithTimeInterval(10.0, target: self, selector: #selector(gamescene.removePlayerMagneticField), userInfo: nil, repeats: false);
+                        fruitbowltimer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(gamescene.removePlayerMagneticField), userInfo: nil, repeats: false);
                     }else{
                         //Fruit Bowl already active
                     }
@@ -334,7 +329,7 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
                 if(name == "teleport"){
                     if(Game.teleport_auto_active == 0){
                         Game.teleport_auto_active = 1;
-                        addHint("Touch anywhere on the screen to teleport to location");
+                        addHint(text: "Touch anywhere on the screen to teleport to location");
                     }else{
                         Game.teleport_auto_active = 0;
                         removeHint();
@@ -356,8 +351,8 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
                 
             }else if(!Game.playerDead){
                 if(Game.teleport_active){
-                    Game.ability_bar.deactivateAbility("teleport");
-                    Game.player.teleport(location);
+                    Game.ability_bar.deactivateAbility(a: "teleport");
+                    Game.player.teleport(p: location);
                     removeHint();
                 }else{
                     if(!Game.gamepaused){
@@ -370,10 +365,9 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
                         }else{
                             if(!Game.tiltmovement && ((!Game.player.isJumping && !Game.player.isFalling) || Game.player.multipleJump > Game.player.JumpCount)){
                                 mid_shadow.alpha = 0.08;
-                                let triggerTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.2 * Double(NSEC_PER_SEC)))
-                                dispatch_after(triggerTime, dispatch_get_main_queue(), { () -> Void in
-                                    self.mid_shadow.alpha = 0;
-                                });
+                                DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
+                                    self?.mid_shadow.alpha = 0
+                                }
                             }
                             Game.player.jump();
                         }
@@ -384,24 +378,24 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
                 gameover = false;
                 removeHint();
                 
-                Game.player.setup(0, y: 0, size: 1.0, zPos: 1)
+                Game.player.setup(x: 0, y: 0, size: 1.0, zPos: 1)
                 Game.player.inView();
-                Game.player.teleport(location);
+                Game.player.teleport(p: location);
                 addChild(Game.player);
                 Game.playerDead = false;
                 Game.player.FirstContact = true;
                 
-                Game.ability_bar.deactivateAbility("theripening");
+                Game.ability_bar.deactivateAbility(a: "theripening");
             }
             
             if(node.name == "pause"){
-                PauseGame(pause_popup);
-                Game.soundManager.playSound("click");
+                PauseGame(popup: pause_popup);
+                Game.soundManager.playSound(str: "click");
             }
             
             if(node.name == "resume"){
                 ResumeGame();
-                Game.soundManager.playSound("click");
+                Game.soundManager.playSound(str: "click");
             }
             
             if(node.name == "soundfx"){
@@ -412,7 +406,7 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
                     pause_popup.soundfx_btn.text = "SOUNDFX ON";
                     Game.soundFX = true;
                 }
-                Game.soundManager.playSound("click");
+                Game.soundManager.playSound(str: "click");
                 Game.saveGame.saveMenuData();
             }
             
@@ -424,7 +418,7 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
                     pause_popup.autoresume_btn.text = "AUTOPLAY ON";
                     Game.autoplayON = true;
                 }
-                Game.soundManager.playSound("click");
+                Game.soundManager.playSound(str: "click");
                 Game.saveGame.saveMenuData();
             }
             
@@ -436,25 +430,25 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
                 }else{
                     pause_popup.righthanded_btn.text = "LEFT HANDED";
                 }
-                Game.soundManager.playSound("click");
+                Game.soundManager.playSound(str: "click");
             }
             
             if(node.name == "quit"){
-                Game.soundManager.playSound("click");
+                Game.soundManager.playSound(str: "click");
                 if((gameovertimer) != nil){ gameovertimer.invalidate(); }
                 if(!Game.playerDead){
                     resetSceneFlag = false;
                     didMoveOutOfView();
                     Game.player.Die();
                 }
-                Game.skView.presentScene(Game.scenes_mainmenu!, transition: SKTransition.fadeWithColor(UIColor.blackColor(), duration: NSTimeInterval(Game.SceneFade)));
+                Game.skView.presentScene(Game.scenes_mainmenu!, transition: SKTransition.fade(with: UIColor.black, duration: TimeInterval(Game.SceneFade)));
             }
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let location = touch.locationInNode(self);
+            let location = touch.location(in: self);
             
             if(!Game.tiltmovement){
                 if((location.x < Game.sceneWidth / 4)){
@@ -501,8 +495,8 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
     }
     
     //MISC
-    func removePlayerMagneticField(){
-        Game.ability_bar.deactivateAbility("fruitbowl");
+    @objc func removePlayerMagneticField(){
+        Game.ability_bar.deactivateAbility(a: "fruitbowl");
         Game.player.powerupField.categoryBitMask = PhysicsCategory.None;
         if(fruitbowltimer != nil){
             fruitbowltimer?.invalidate();
@@ -510,47 +504,48 @@ class gamescene : cherryscene, SKPhysicsContactDelegate {
         }
     }
     
-    func didBeginContact(contact: SKPhysicsContact) {
-        var firstBody : SKPhysicsBody;
-        var secoundBody : SKPhysicsBody;
+    func didBegin(_ contact: SKPhysicsContact) {
+        print("Contact detected between \(contact.bodyA.categoryBitMask) and \(contact.bodyB.categoryBitMask)")
         
-        if(contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask){
-            firstBody = contact.bodyA;
-            secoundBody = contact.bodyB;
-        }else{
-            firstBody = contact.bodyB;
-            secoundBody = contact.bodyA;
+        var firstBody: SKPhysicsBody
+        var secoundBody: SKPhysicsBody
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secoundBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secoundBody = contact.bodyA
         }
         
-        if((firstBody.categoryBitMask == PhysicsCategory.player) && (secoundBody.categoryBitMask == PhysicsCategory.platform)){
-            let node:Player = firstBody.node as! Player;
-            node.canJump = true;
-            node.isJumping = false;
-            node.FirstContact = true;
+        if (firstBody.categoryBitMask == PhysicsCategory.player) && (secoundBody.categoryBitMask == PhysicsCategory.platform) {
+            let node = firstBody.node as! Player
+            node.canJump = true
+            node.isJumping = false
+            node.FirstContact = true
             
-            
-            let platform:Platform = secoundBody.node as! Platform;
-            platform.Touched();
+            let platform = secoundBody.node as! Platform
+            platform.Touched()
 
-            if(Game.tutorialON){
-                if(Game.tiltmovement){
-                    PauseGame(tiltTutorial);
-                }else{
-                    PauseGame(touchTutorial);
+            if Game.tutorialON {
+                if Game.tiltmovement {
+                    PauseGame(popup: tiltTutorial)
+                } else {
+                    PauseGame(popup: touchTutorial)
                 }
             }
         }
         
-        if((firstBody.categoryBitMask == PhysicsCategory.player) && (secoundBody.categoryBitMask == PhysicsCategory.pickup)){
-            let node:Pickup = secoundBody.node as! Pickup;
-            node.pickup();
+        if (firstBody.categoryBitMask == PhysicsCategory.player) && (secoundBody.categoryBitMask == PhysicsCategory.pickup) {
+            let node = secoundBody.node as! Pickup
+            node.pickup()
         }
         
         //Top Fruit ability
-        if((firstBody.categoryBitMask == PhysicsCategory.player) && (secoundBody.categoryBitMask == PhysicsCategory.walls)){
-            if(Game.player.FirstContact){ //Don't count the player touching the top when game starts
-                Game.top.physicsBody?.categoryBitMask = PhysicsCategory.None;
-                Game.ability_bar.deactivateAbility("topfruit");
+        if (firstBody.categoryBitMask == PhysicsCategory.player) && (secoundBody.categoryBitMask == PhysicsCategory.walls) {
+            if Game.player.FirstContact { //Don't count the player touching the top when game starts
+                Game.top.physicsBody?.categoryBitMask = PhysicsCategory.None
+                Game.ability_bar.deactivateAbility(a: "topfruit")
             }
         }
     }

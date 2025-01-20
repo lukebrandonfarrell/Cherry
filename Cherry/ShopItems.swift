@@ -28,63 +28,63 @@ class ShopItems : GameObject {
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size);
         
-        shoptitle.setup("SHOP", name: "shop",
-                        x: 0, y: Game.GetY(0.0),
-                        size: 150, color: SKColor.whiteColor(),
-                        align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
+        shoptitle.setup(text: "SHOP", name: "shop",
+                        x: 0, y: Game.GetY(value: 0.0),
+                        size: 150, color: SKColor.white,
+                        align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
         
-        subtitle_abilities.setup("Abilities", name: "subtitle_abilities",
-                        x: 0, y: shoptitle.position.y - Game.GetY(0.15),
-                        size: 80, color: SKColor.whiteColor(),
-                        align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
+        subtitle_abilities.setup(text: "Abilities", name: "subtitle_abilities",
+                                 x: 0, y: shoptitle.position.y - Game.GetY(value: 0.15),
+                                 size: 80, color: SKColor.white,
+                                 align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
         
-        tagline_abilities.setup("Ripening up your game", name: "tagline_abilities",
-                        x:0, y: subtitle_abilities.position.y - Game.GetY(0.1),
-                        size: 60, color: SKColor.whiteColor(),
-                        align: SKLabelHorizontalAlignmentMode.Center, zPos: 1);
+        tagline_abilities.setup(text: "Ripening up your game", name: "tagline_abilities",
+                                x:0, y: subtitle_abilities.position.y - Game.GetY(value: 0.1),
+                                size: 60, color: SKColor.white,
+                                align: SKLabelHorizontalAlignmentMode.center, zPos: 1);
         
         addChild(shoptitle);
         addChild(subtitle_abilities)
         addChild(tagline_abilities);
         
-        topfruit_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(0.6), height: Game.GetY(0.3)))
-        topfruit_item.setup(0, y: -Game.GetY(0.3), size: 1.0, zPos: 1);
-        topfruit_item.loadItem(Game.textures.topfruit(), invertedTexture: Game.textures.topfruit_inverted(),
+        topfruit_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(value: 0.6), height: Game.GetY(value: 0.3)))
+        topfruit_item.setup(x: 0, y: -Game.GetY(value: 0.3), size: 1.0, zPos: 1);
+        topfruit_item.loadItem(normalTexture: Game.textures.topfruit(), invertedTexture: Game.textures.topfruit_inverted(),
                                title: "Top Fruit", description: "Bounce against the top of the screen", cost: [3, 0, 0, 0])
         amount_label_array["topfruit"] = topfruit_item.getLabel();
         addChild(topfruit_item);
         
-        fruitadox_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(0.6), height: Game.GetY(0.3)))
-        fruitadox_item.setup(0, y: topfruit_item.frame.minY, size: 1.0, zPos: 1);
-        fruitadox_item.loadItem(Game.textures.fruitadox(), invertedTexture: Game.textures.fruitadox_inverted(),
+        fruitadox_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(value: 0.6), height: Game.GetY(value: 0.3)))
+        fruitadox_item.setup(x: 0, y: topfruit_item.frame.minY, size: 1.0, zPos: 1);
+        fruitadox_item.loadItem(normalTexture: Game.textures.fruitadox(), invertedTexture: Game.textures.fruitadox_inverted(),
                                 title: "Fruitadox", description: "Next fruity pickup will last 2x as long", cost: [3, 1, 0, 0])
         amount_label_array["fruitadox"] = fruitadox_item.getLabel();
         addChild(fruitadox_item);
 
-        sweetfruit_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(0.6), height: Game.GetY(0.3)))
-        sweetfruit_item.setup(0, y: fruitadox_item.frame.minY, size: 1.0, zPos: 1);
-        sweetfruit_item.loadItem(Game.textures.sweetfruit(), invertedTexture: Game.textures.sweetfruit_inverted(),
+        sweetfruit_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(value: 0.6), height: Game.GetY(value: 0.3)))
+        sweetfruit_item.setup(x: 0, y: fruitadox_item.frame.minY, size: 1.0, zPos: 1);
+        sweetfruit_item.loadItem(normalTexture: Game.textures.sweetfruit(), invertedTexture: Game.textures.sweetfruit_inverted(),
                                  title: "Sweet Fruit", description: "Next fruity pickup will have x2 effect", cost: [3, 3, 0, 0])
         amount_label_array["sweetfruit"] = sweetfruit_item.getLabel();
         addChild(sweetfruit_item);
         
-        fruitbowl_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(0.6), height: Game.GetY(0.3)))
-        fruitbowl_item.setup(0, y: sweetfruit_item.frame.minY, size: 1.0, zPos: 1);
-        fruitbowl_item.loadItem(Game.textures.fruitbowl(), invertedTexture: Game.textures.fruitbowl_inverted(),
+        fruitbowl_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(value: 0.6), height: Game.GetY(value: 0.3)))
+        fruitbowl_item.setup(x: 0, y: sweetfruit_item.frame.minY, size: 1.0, zPos: 1);
+        fruitbowl_item.loadItem(normalTexture: Game.textures.fruitbowl(), invertedTexture: Game.textures.fruitbowl_inverted(),
                                  title: "Fruit Bowl", description: "Pulls all fruit to you", cost: [5, 3, 0, 0])
         amount_label_array["fruitbowl"] = fruitbowl_item.getLabel();
         addChild(fruitbowl_item);
         
-        teleport_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(0.6), height: Game.GetY(0.3)))
-        teleport_item.setup(0, y: fruitbowl_item.frame.minY, size: 1.0, zPos: 1);
-        teleport_item.loadItem(Game.textures.teleport(), invertedTexture: Game.textures.teleport_inverted(),
+        teleport_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(value: 0.6), height: Game.GetY(value: 0.3)))
+        teleport_item.setup(x: 0, y: fruitbowl_item.frame.minY, size: 1.0, zPos: 1);
+        teleport_item.loadItem(normalTexture: Game.textures.teleport(), invertedTexture: Game.textures.teleport_inverted(),
                                  title: "Teleport", description: "Teleport to next touch location", cost: [3, 2, 1, 0])
         amount_label_array["teleport"] = teleport_item.getLabel();
         addChild(teleport_item);
         
-        theripening_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(0.6), height: Game.GetY(0.3)))
-        theripening_item.setup(0, y: teleport_item.frame.minY, size: 1.0, zPos: 1);
-        theripening_item.loadItem(Game.textures.theripening(), invertedTexture: Game.textures.theripening_inverted(),
+        theripening_item = item_ability(texture: nil, size: CGSize(width: Game.GetX(value: 0.6), height: Game.GetY(value: 0.3)))
+        theripening_item.setup(x: 0, y: teleport_item.frame.minY, size: 1.0, zPos: 1);
+        theripening_item.loadItem(normalTexture: Game.textures.theripening(), invertedTexture: Game.textures.theripening_inverted(),
                                  title: "The Ripening", description: "Gives you a secound chance", cost: [3, 3, 2, 1])
         amount_label_array["theripening"] = theripening_item.getLabel();
         addChild(theripening_item);

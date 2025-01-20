@@ -39,7 +39,7 @@ class platform_bouncy : Platform {
     override func Touched() {
         resetBounce();
         
-        Game.soundManager.playSound("bouncyplatform");
+        Game.soundManager.playSound(str: "bouncyplatform");
         
         Game.player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: Game.player.jumpforce));
         Game.player.canJump = false;
@@ -52,10 +52,10 @@ class platform_bouncy : Platform {
         self.texture = bounce_active_local;
         self.size.height = self.size.height * 1.4;
         
-        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(platform_bouncy.resetBounce), userInfo: nil, repeats: false);
+        Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(platform_bouncy.resetBounce), userInfo: nil, repeats: false);
     }
     
-    func resetBounce(){
+    @objc func resetBounce(){
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5);
         self.size.height = height;
         self.texture = bounce_none_local;

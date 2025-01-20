@@ -30,8 +30,8 @@ class LevelManager : GameObject {
     var levelProgression:Bool = false;
     
     //Timers
-    var blackColourChanges:NSTimer!;
-    var saveColourChange:NSTimer!;
+    var blackColourChanges:Timer!;
+    var saveColourChange:Timer!;
     
     private var changeColour:SKAction!;
     private var changeDuration:CGFloat = 12.0;
@@ -54,7 +54,7 @@ class LevelManager : GameObject {
         levelProgression = false;
         lasttrigger = 0;
 
-        changeColour = SKAction.colorizeWithColor(UIColor(netHex: Game.bgColours[level + 1]), colorBlendFactor: 1.0, duration: 12.0);
+        changeColour = SKAction.colorize(with: UIColor(netHex: Game.bgColours[level + 1]), colorBlendFactor: 1.0, duration: 12.0);
         
         getColour();
         
@@ -79,39 +79,38 @@ class LevelManager : GameObject {
         if(!levelProgression){ //Only run the code below once
             levelProgression = true;
             
-            for(var l=1; l<Game.bgColours.count; l += 1){
-                if(level == l){
-                    if(selectedscene != nil){
-                        //Should game colours be inverted
-                        Game.GameColour = Game.bgColours[level];
-                        
-                        var realcolour:UIColor = UIColor(netHex: Game.GameColour);
-                        if(Game.bgColours[level] == 0xFFFFFF){
-                            Game.GameInvertedColour = true;
-                            changeDuration = 2.0; //Turning black to white needs to be quick
-                            realcolour = UIColor.whiteColor();
-                        }else{
-                            Game.GameInvertedColour = false;
-                            changeDuration = 12.0;
-                        }
-                        getColour(); //Change colour of elements if needed
-                        
-                        //Fade into new colour
-                        changeColour = SKAction.colorizeWithColor(realcolour,
-                                                                  colorBlendFactor: 1.0,
-                                                                  duration: Double(changeDuration));
-                        selectedscene.runAction(changeColour);
-                        
-                        //Change platform attributes (make game harder)
-                        Game.platform_spawner.setPlatformAttr(Int(levelproperties[level][0]),
-                                                              max: Int(levelproperties[level][1]),
-                                                              speed: Game.GetY(levelproperties[level][2]));
-                        
-                        //Save our new colour
-                        saveColourChange = NSTimer.scheduledTimerWithTimeInterval(Double(changeDuration),
-                                                                                  target: self, selector: #selector(LevelManager.saveBGColour),
-                                                                                  userInfo: nil, repeats: false);
+            for l in 1..<Game.bgColours.count {
+                if level == l, let scene = selectedscene {
+                    // Should game colours be inverted
+                    Game.GameColour = Game.bgColours[level]
+                    
+                    let realcolour = UIColor(netHex: Game.GameColour)
+                    if Game.bgColours[level] == 0xFFFFFF {
+                        Game.GameInvertedColour = true
+                        changeDuration = 2.0  // Turning black to white needs to be quick
+                    } else {
+                        Game.GameInvertedColour = false
+                        changeDuration = 12.0
                     }
+                    getColour()  // Change colour of elements if needed
+                    
+                    // Fade into new colour
+                    changeColour = SKAction.colorize(with: realcolour,
+                                                   colorBlendFactor: 1.0,
+                                                   duration: Double(changeDuration))
+                    scene.run(changeColour)
+                    
+                    // Change platform attributes (make game harder)
+                    Game.platform_spawner.setPlatformAttr(min: Int(levelproperties[level][0]),
+                                                        max: Int(levelproperties[level][1]),
+                                                          speed: Game.GetY(value: levelproperties[level][2]))
+                    
+                    // Save our new colour
+                    saveColourChange = Timer.scheduledTimer(timeInterval: Double(changeDuration),
+                                                          target: self,
+                                                          selector: #selector(LevelManager.saveBGColour),
+                                                          userInfo: nil,
+                                                          repeats: false)
                 }
             }
             
@@ -124,10 +123,10 @@ class LevelManager : GameObject {
         }
     }
     
-    func saveBGColour(){ //Each time we get to a level save that background colour and our MaxLevel
+    @objc func saveBGColour(){ //Each time we get to a level save that background colour and our MaxLevel
         if(level > MaxLevel){
             MaxLevel = level;
-            Game.saveGame.saveInteger(level, key: Game.saveGame.keyMaxLevel);
+            Game.saveGame.saveInteger(data: level, key: Game.saveGame.keyMaxLevel);
         }
         Game.GameOverBackgroundColor = Game.bgColours[level];
     }

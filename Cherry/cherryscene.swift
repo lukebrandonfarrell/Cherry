@@ -23,9 +23,9 @@ class cherryscene : SKScene {
     override init(size: CGSize) {
         super.init(size: size);
         
-        fadeactions = [SKAction.fadeInWithDuration(2.0), SKAction.fadeOutWithDuration(2.0)];
-        allactions = [SKAction.repeatActionForever(SKAction.sequence(fadeactions))];
-        closeactions = [SKAction.waitForDuration(2.0), SKAction.runBlock( { () -> Void in
+        fadeactions = [SKAction.fadeIn(withDuration: 2.0), SKAction.fadeOut(withDuration: 2.0)];
+        allactions = [SKAction.repeatForever(SKAction.sequence(fadeactions))];
+        closeactions = [SKAction.wait(forDuration: 2.0), SKAction.run( { () -> Void in
             self.hint.text = "";
         })];
         
@@ -38,9 +38,9 @@ class cherryscene : SKScene {
     }
     
     func loadHint(){
-        hint.setup("", name: "hint", x: Game.GetX(0.5), y: Game.GetY(0.05),
-                   size: 50, color: SKColor.whiteColor(),
-                   align: SKLabelHorizontalAlignmentMode.Center, zPos: 6.5);
+        hint.setup(text: "", name: "hint", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.05),
+                   size: 50, color: SKColor.white,
+                   align: SKLabelHorizontalAlignmentMode.center, zPos: 6.5);
         addChild(hint);
     }
     
@@ -49,9 +49,9 @@ class cherryscene : SKScene {
         hint.removeAllActions()
         
         if(flash){
-            if(hint_action != nil){ hint.runAction(hint_action); };
+            if(hint_action != nil){ hint.run(hint_action); };
         }else{
-            if(close_action != nil){ hint.runAction(close_action); };
+            if(close_action != nil){ hint.run(close_action); };
         }
     }
     

@@ -10,8 +10,8 @@ import Foundation
 import SpriteKit
 
 class CherrySlider : GameObject {
-    var line : ShapeObject = ShapeObject(rect: CGRect(x: 0, y: 0, width: Game.GetX(0.2), height: Game.GetY(0.02)));
-    var slider : ShapeObject = ShapeObject(circleOfRadius: Game.GetX(0.02));
+    var line : ShapeObject = ShapeObject(rect: CGRect(x: 0, y: 0, width: Game.GetX(value: 0.2), height: Game.GetY(value: 0.02)));
+    var slider : ShapeObject = ShapeObject(circleOfRadius: Game.GetX(value: 0.02));
     var type:String = "slider";
     
     var value : CGFloat = 0.5;
@@ -19,8 +19,8 @@ class CherrySlider : GameObject {
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
         
-        line.fillColor = SKColor.whiteColor();
-        slider.fillColor = SKColor.whiteColor();
+        line.fillColor = SKColor.white;
+        slider.fillColor = SKColor.white;
         
         slider.position.x = line.frame.midX;
         line.position.y = slider.frame.midY - 2;
@@ -49,7 +49,7 @@ class CherrySlider : GameObject {
     }
     
     func getColour(){
-        line.fillColor = Game.MenuInvertedColour ? SKColor.blackColor() : SKColor.whiteColor();
-        slider.fillColor = Game.MenuInvertedColour ? SKColor.blackColor() : SKColor.whiteColor();
+        line.fillColor = Game.MenuInvertedColour ? SKColor.black : SKColor.white;
+        slider.fillColor = Game.MenuInvertedColour ? SKColor.black : SKColor.white;
     }
 }

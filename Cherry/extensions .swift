@@ -12,7 +12,7 @@ import SpriteKit
 private var pauseStartKey:UInt8 = 0;
 private var previousFireDateKey:UInt8 = 0;
 
-extension NSTimer
+extension Timer
 {
     private var pauseStart: NSDate!{
         get{
@@ -40,8 +40,8 @@ extension NSTimer
     func pause()
     {
         pauseStart = NSDate();
-        previousFireDate = self.fireDate;
-        self.fireDate = NSDate.distantFuture() ;
+        previousFireDate = self.fireDate as NSDate;
+        self.fireDate = NSDate.distantFuture ;
     }
     
     func resume()
@@ -49,8 +49,8 @@ extension NSTimer
         if(pauseStart != nil)
         {
             let pauseTime = -1 * pauseStart.timeIntervalSinceNow;
-            let date = NSDate(timeInterval:pauseTime, sinceDate:previousFireDate );
-            self.fireDate = date;
+            let date = NSDate(timeInterval:pauseTime, since:previousFireDate as Date );
+            self.fireDate = date as Date;
         }
         
     }
@@ -77,7 +77,7 @@ public extension UIDevice {
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
         let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8 where value != 0 else { return identifier }
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
         

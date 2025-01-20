@@ -30,16 +30,16 @@ class cherrymenu : cherryscene {
     
     func loadBackground(){ //Loads the constants we need for changeable backgrounds
         BGPrevColour = ShapeObject(rect: CGRect(x: 0, y: 0, width: Game.sceneWidth, height: Game.sceneHeight));
-        BGPrevColour.setup(-Game.sceneWidth, y: 0, size: 1.0, zPos: 1);
+        BGPrevColour.setup(x: -Game.sceneWidth, y: 0, size: 1.0, zPos: 1);
         BGPrevColour.lineWidth = 0.0;
         addChild(BGPrevColour);
         
         //Actions
-        slide = SKAction.moveToX(0, duration: 0.2);
+        slide = SKAction.moveTo(x: 0, duration: 0.2);
         
-        change = SKAction.runBlock { () -> Void in
+        change = SKAction.run { () -> Void in
             Game.MenuBackgroundColor = Game.bgColours[self.BGselection];
-            Game.saveGame.saveInteger(Game.MenuBackgroundColor, key: Game.saveGame.keyBGColour); //Save BG Colour
+            Game.saveGame.saveInteger(data: Game.MenuBackgroundColor, key: Game.saveGame.keyBGColour); //Save BG Colour
             self.backgroundColor = UIColor(netHex: Game.MenuBackgroundColor);
             self.updateBackgroundColour()
             self.BGPrevColour.alpha = 0.0;
@@ -48,15 +48,15 @@ class cherrymenu : cherryscene {
         sequence_array = [slide, change];
     }
     
-    override func didMoveToView(view: SKView) {        
+    override func didMove(to view: SKView) {        
         backgroundColor = UIColor(netHex: Game.MenuBackgroundColor);
         
-        for(var i=0; i<Game.bgColours.count; i += 1){
-            if(Game.bgColours[i] == Game.MenuBackgroundColor){
-                BGselection = i;
+        for (index, color) in Game.bgColours.enumerated() {
+            if color == Game.MenuBackgroundColor {
+                BGselection = index
             }
         }
-        Game.saveGame.saveInteger(Game.MenuBackgroundColor, key: Game.saveGame.keyBGColour) //Save current background colour
+        Game.saveGame.saveInteger(data: Game.MenuBackgroundColor, key: Game.saveGame.keyBGColour) //Save current background colour
         
         updateBackgroundColour()
     }
@@ -64,12 +64,12 @@ class cherrymenu : cherryscene {
     func updateBackgroundColour(){ //Because BG colour can be changed, we need to check it when its changed to update colour of other objects
         //Colour checking / changing code goes here
         if(Game.MenuBackgroundColor == 0xFFFFFF){Game.MenuInvertedColour = true;}else{Game.MenuInvertedColour = false;}
-        hint.fontColor = Game.MenuInvertedColour ? SKColor.blackColor() : SKColor.whiteColor();
+        hint.fontColor = Game.MenuInvertedColour ? SKColor.black : SKColor.white;
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let location = touch.locationInNode(self);
+            let location = touch.location(in: self);
             touchEndLoc = location;
             
             let direction:CGFloat = touchStartLoc.x - touchEndLoc.x;
@@ -82,7 +82,7 @@ class cherrymenu : cherryscene {
                     BGPrevColour.position.x = Game.sceneWidth * 2;
                     BGselection += 1;
                     BGPrevColour.fillColor = UIColor(netHex: Game.bgColours[BGselection])
-                    BGPrevColour.runAction(SKAction.sequence(sequence_array), withKey: "slide");
+                    BGPrevColour.run(SKAction.sequence(sequence_array), withKey: "slide");
                 }
             }
             else if(direction < -120)
@@ -92,7 +92,7 @@ class cherrymenu : cherryscene {
                     BGselection -= 1;
                     BGPrevColour.position.x = -Game.sceneWidth;
                     BGPrevColour.fillColor = UIColor(netHex: Game.bgColours[BGselection])
-                    BGPrevColour.runAction(SKAction.sequence(sequence_array), withKey: "slide");
+                    BGPrevColour.run(SKAction.sequence(sequence_array), withKey: "slide");
                 }
                 
             }

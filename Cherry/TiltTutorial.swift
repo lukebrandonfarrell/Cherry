@@ -17,18 +17,18 @@ class TiltTutorial: PopUp {
         super.init(texture: texture, color: color, size: size);
         
         let backgroundfaded : ShapeObject = ShapeObject(rect: CGRect(x: 0, y: 0, width: Game.sceneWidth, height: Game.sceneHeight));
-        backgroundfaded.fillColor = SKColor.blackColor();
+        backgroundfaded.fillColor = SKColor.black;
         backgroundfaded.alpha = 0.4;
         backgroundfaded.lineWidth = 0.0;
         backgroundfaded.name = "resume";
         addChild(backgroundfaded);
         
-        tilt_text.setup("tilt to move + tap to jump", name: "tilt", x: Game.GetX(0.5), y: Game.GetY(0.75), size: 45, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 4);
+        tilt_text.setup(text: "tilt to move + tap to jump", name: "tilt", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.75), size: 45, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 4);
         
         addChild(tilt_text);
         
         
-        start_text.setup("tap to start", name: "start", x: Game.GetX(0.5), y: Game.GetY(0.1), size: 45, color: SKColor.whiteColor(), align: SKLabelHorizontalAlignmentMode.Center, zPos: 4);
+        start_text.setup(text: "tap to start", name: "start", x: Game.GetX(value: 0.5), y: Game.GetY(value: 0.1), size: 45, color: SKColor.white, align: SKLabelHorizontalAlignmentMode.center, zPos: 4);
         
         addChild(start_text);
         

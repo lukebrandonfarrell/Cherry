@@ -11,14 +11,17 @@ import SpriteKit
 
 class platform_crumble : Platform {
     
-    var crumbleTimer:NSTimer!;
+    var crumbleTimer:Timer!;
     var crumble_emmiter:SKEmitterNode!;
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
         
-        let crumble_effect:NSString = Game.GameInvertedColour ? NSBundle.mainBundle().pathForResource("crumble_inverted", ofType: "sks")! : NSBundle.mainBundle().pathForResource("crumble", ofType: "sks")!
-        crumble_emmiter = NSKeyedUnarchiver.unarchiveObjectWithFile(crumble_effect as String) as! SKEmitterNode;
+        let crumble_effect = Game.GameInvertedColour ? 
+            Bundle.main.path(forResource: "crumble_inverted", ofType: "sks")! : 
+            Bundle.main.path(forResource: "crumble", ofType: "sks")!
+        
+        crumble_emmiter = (NSKeyedUnarchiver.unarchiveObject(withFile: crumble_effect) as! SKEmitterNode);
         
         crumble_emmiter.position = CGPointMake(0, 0)
         crumble_emmiter.zPosition = 1
@@ -35,17 +38,17 @@ class platform_crumble : Platform {
     
     override func Touched() {
         if(!hasTouched){
-            Game.soundManager.playSound("crumble");
+            Game.soundManager.playSound(str: "crumble");
             
             crumble_emmiter.particleBirthRate = 25;
             
-            crumbleTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(platform_crumble.startCrumble), userInfo: nil, repeats: true);
+            crumbleTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(platform_crumble.startCrumble), userInfo: nil, repeats: true);
         
             super.Touched();
         }
     }
     
-    func startCrumble(){
+    @objc func startCrumble(){
         if(self.alpha > 0.2){
             self.alpha = self.alpha - 0.2;
         }else{
